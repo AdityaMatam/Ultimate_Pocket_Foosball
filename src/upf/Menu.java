@@ -17,7 +17,7 @@ public class Menu implements ActionListener {
 		// Frame
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setResizable(false);
-		f.setBounds(200, 100, 285 + 6, 550 + 25);
+		f.setBounds(200, 100, 280 + 6, 550+25);
 		f.setLayout(null);
 
 		// Layered pane
@@ -25,8 +25,9 @@ public class Menu implements ActionListener {
 		lp.setBounds(0, 0, 406, 522);
 
 		// Background
-		// JLabel background = new JLabel(UPF.phone);
-		// background.setSize(285, 550);
+		JLabel pBackground = new JLabel(UPF.phone);
+		//pBackground.setBounds(0, 50, 280, 550);
+		pBackground.setSize(280, 550);
 
 		// Multiplication
 		JLabel title1 = new JLabel("Multiplication");
@@ -53,11 +54,11 @@ public class Menu implements ActionListener {
 		instructions.addActionListener(this);
 
 		// Adding
-		// lp.add(background, new Integer(1));
-		lp.add(title1, new Integer(2));
-		lp.add(title2, new Integer(2));
-		lp.add(play, new Integer(2));
-		lp.add(instructions, new Integer(2));
+		lp.add(pBackground, new Integer(1));
+		//lp.add(title1, new Integer(2));
+		//lp.add(title2, new Integer(2));
+		//lp.add(play, new Integer(2));
+		//lp.add(instructions, new Integer(2));
 
 		f.add(lp);
 		f.setVisible(true);
