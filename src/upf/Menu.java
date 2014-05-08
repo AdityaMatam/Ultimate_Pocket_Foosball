@@ -16,7 +16,7 @@ public class Menu implements ActionListener
 	JFrame f = new JFrame("Ultimate Pocket Foosball");
 
 	public Menu() {// Constructor (Output)
-		
+
 		// Frame
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setResizable(false);
@@ -98,7 +98,9 @@ public class Menu implements ActionListener
 			{
 				Desktop.getDesktop().browse(
 						new URL("http://heyyeyaaeyaaaeyaeyaa.com/").toURI());
-			} catch (Exception a){}				
+			} catch (Exception a)
+			{
+			}
 		}
 		if (e.getSource() == ad)
 		{
@@ -106,8 +108,10 @@ public class Menu implements ActionListener
 			{
 				Desktop.getDesktop().browse(
 						new URL("http://www.theuselessweb.com/").toURI());
-			} catch (Exception a){}
-	}
+			} catch (Exception a)
+			{
+			}
+		}
 
-}
 	}
+}
