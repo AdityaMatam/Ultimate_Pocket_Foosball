@@ -79,7 +79,7 @@ public class Menu implements ActionListener
 			UPF.lp.remove(play1);
 			UPF.lp.remove(play2);
 			UPF.f.repaint();
-
+			UPF.ad.removeActionListener(this);
 			new Game1();
 
 		}

@@ -17,62 +17,80 @@ public class Game1 implements ActionListener
 	static JButton play1, play2, ad;
 
 	public Game1() {// Constructor (Output)
-		
+
+		int[] x = { 80, 136, 188, 57, 110, 159, 210, 108, 163, 136 };
+		int[] y = { 125, 155, 195, 235, 291, 330, 370, 402 };
+
 		// Background
 		JLabel sBackground = new JLabel(new ImageIcon("resources/gameBKG.jpg"));
 		sBackground.setBounds(14, 46, 253, 445);
 
-		//Net
+		// Net
 		ImageIcon nett = new ImageIcon("resources/goalnett.png");
 		JLabel net1 = new JLabel(nett);
-		net1.setBounds(100,78,82,36);
+		net1.setBounds(100, 78, 82, 36);
 		ImageIcon netb = new ImageIcon("resources/goalnetb.png");
 		JLabel net2 = new JLabel(netb);
-		net2.setBounds(100,424,82,36);
+		net2.setBounds(100, 424, 82, 36);
 
-		
-		/*
-		// Ultimate
-		JLabel title1 = new JLabel("Ultimate", SwingConstants.CENTER);
-		title1.setBounds(14, 75, 253, 42);
-		title1.setFont(title);
-		title1.setForeground(Color.WHITE);
+		// Bars
+		ImageIcon bari = new ImageIcon("resources/bar.png");
+		JLabel[] bar = new JLabel[8];
+		for (int i = 0; i != 8; i++)
+		{
+			bar[i] = new JLabel(bari);
+			bar[i].setBounds(14, y[i] + 2, 254, 5);
+		}
 
-		// Pocket
-		JLabel title2 = new JLabel("Pocket", SwingConstants.CENTER);
-		title2.setBounds(14, 125, 253, 42);
-		title2.setFont(title);
-		title2.setForeground(Color.WHITE);
+		// Player1
+		ImageIcon player;
+		player = new ImageIcon("resources/player1.png");
+		JLabel[] player1 = new JLabel[10];
+		for (int i = 0; i != 10; i++)
+		{
+			player1[i] = new JLabel(player);
+			player1[i].setSize(9, 9);
+			if (i < 3)
+				player1[i].setLocation(x[i], y[2]);
+			else if (i < 7)
+				player1[i].setLocation(x[i], y[4]);
+			else if (i < 9)
+				player1[i].setLocation(x[i], y[6]);
+			else
+				player1[i].setLocation(x[i], y[7]);
+		}
 
-		// Foosball
-		JLabel title3 = new JLabel("Foosball", SwingConstants.CENTER);
-		title3.setBounds(14, 175, 253, 42);
-		title3.setFont(title);
-		title3.setForeground(Color.WHITE);
+		// Player2
+		player = new ImageIcon("resources/player2.png");
+		JLabel[] player2 = new JLabel[10];
+		for (int i = 9; i != -1; i--)
+		{
+			player2[i] = new JLabel(player);
+			player2[i].setSize(9, 9);
+			if (i == 9)
+				player2[i].setLocation(x[i], y[0]);
+			else if (i > 6)
+				player2[i].setLocation(x[i], y[1]);
+			else if (i > 2)
+				player2[i].setLocation(x[i], y[3]);
+			else
+				player2[i].setLocation(x[i], y[5]);
+		}
 
-		// Single Player button
-		play1 = new JButton("SINGLE PLAYER");
-		play1.setFont(buttonBig);
-		play1.setBounds(24, 250, 233, 40);
-		play1.addActionListener(this);
+		// Ad button
+		UPF.ad.addActionListener(this);
 
-		// 2 Player Button
-		play2 = new JButton("2 PLAYER (wip)");
-		play2.setFont(buttonBig);
-		play2.setBounds(24, 310, 233, 40);
-		play2.addActionListener(this);
-
-		// AD Button
-		ad = new JButton("advertisement");
-		ad.setFont(adFont);
-		ad.setBounds(14, 452, 253, 40);
-		ad.addActionListener(this);
-		*/
 		// Adding
 		UPF.lp.add(sBackground, new Integer(1));
 		UPF.lp.add(net1, new Integer(2));
 		UPF.lp.add(net2, new Integer(2));
-		
+		for (int i = 0; i != 8; i++)
+			UPF.lp.add(bar[i], new Integer(3));
+		for (int i = 0; i != 10; i++)
+		{
+			UPF.lp.add(player1[i], new Integer(4));
+			UPF.lp.add(player2[i], new Integer(4));
+		}
 		UPF.f.repaint();
 
 	}
@@ -88,10 +106,11 @@ public class Game1 implements ActionListener
 		}
 		if (e.getSource() == UPF.ad)
 		{
+			UPF.f.dispose();
 			try
 			{
-				Desktop.getDesktop().browse(
-						new URL("http://omfgdogs.com/").toURI());
+				// Desktop.getDesktop().browse(
+				// new URL("http://omfgdogs.com/").toURI());
 			} catch (Exception a)
 			{
 			}
