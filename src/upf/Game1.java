@@ -7,19 +7,28 @@ import javax.swing.*;
 
 import java.awt.event.*;
 import java.net.URL;
+import java.util.Arrays;
+import java.util.Collections;
 
-public class Game1 implements ActionListener
+public class Game1 implements ActionListener, KeyListener
 {
 	// Declarations
 	Font title = new Font("Berlin Sans FB Demi", Font.PLAIN, 42);
 	Font buttonBig = new Font("Eras Demi ITC", Font.PLAIN, 25);
 	Font adFont = new Font("Arial", Font.PLAIN, 20);
 	static JButton play1, play2, ad;
+	/*
+	static int[] x1 = { 80, 136, 188, 57, 110, 159, 210, 108, 163, 136 };
+	static int[] x2 = x1;
+	static int[] y = { 125, 155, 195, 235, 291, 330, 370, 402 };
+	*/
+	static JLabel[] player1 = new JLabel[10], player2 = new JLabel[10];
+	PlayerMovement move = new PlayerMovement();
 
 	public Game1() {// Constructor (Output)
-
-		int[] x = { 80, 136, 188, 57, 110, 159, 210, 108, 163, 136 };
-		int[] y = { 125, 155, 195, 235, 291, 330, 370, 402 };
+		UPF.f.addKeyListener(this);
+		UPF.f.requestFocusInWindow();
+		
 
 		// Background
 		JLabel sBackground = new JLabel(new ImageIcon("resources/gameBKG.jpg"));
@@ -39,42 +48,26 @@ public class Game1 implements ActionListener
 		for (int i = 0; i != 8; i++)
 		{
 			bar[i] = new JLabel(bari);
-			bar[i].setBounds(14, y[i] + 2, 254, 5);
+			bar[i].setBounds(14, move.y[i] + 2, 254, 5);
 		}
 
 		// Player1
 		ImageIcon player;
 		player = new ImageIcon("resources/player1.png");
-		JLabel[] player1 = new JLabel[10];
 		for (int i = 0; i != 10; i++)
 		{
 			player1[i] = new JLabel(player);
 			player1[i].setSize(9, 9);
-			if (i < 3)
-				player1[i].setLocation(x[i], y[2]);
-			else if (i < 7)
-				player1[i].setLocation(x[i], y[4]);
-			else if (i < 9)
-				player1[i].setLocation(x[i], y[6]);
-			else
-				player1[i].setLocation(x[i], y[7]);
+			move.player1Position(i);
 		}
 
 		// Player2
 		player = new ImageIcon("resources/player2.png");
-		JLabel[] player2 = new JLabel[10];
-		for (int i = 9; i != -1; i--)
+		for (int i = 0; i != 10; i++)
 		{
 			player2[i] = new JLabel(player);
 			player2[i].setSize(9, 9);
-			if (i == 9)
-				player2[i].setLocation(x[i], y[0]);
-			else if (i > 6)
-				player2[i].setLocation(x[i], y[1]);
-			else if (i > 2)
-				player2[i].setLocation(x[i], y[3]);
-			else
-				player2[i].setLocation(x[i], y[5]);
+			move.player2Position(i);
 		}
 
 		// Ad button
@@ -98,12 +91,6 @@ public class Game1 implements ActionListener
 	// Input
 	public void actionPerformed(ActionEvent e)
 	{
-		// Processing
-		if (e.getSource() == play1)
-		{
-			UPF.f.dispose();
-
-		}
 		if (e.getSource() == UPF.ad)
 		{
 			UPF.f.dispose();
@@ -116,4 +103,27 @@ public class Game1 implements ActionListener
 			}
 		}
 	}
+
+	public void keyPressed(KeyEvent e)
+	{
+		int k = e.getKeyCode();
+		if (k == KeyEvent.VK_LEFT && move.x1[3] > 20)
+		{
+				move.p1Left();
+		}
+		if (k == KeyEvent.VK_RIGHT & move.x1[6] < 250)
+		{
+				move.p1Right();
+		}
+
+	}
+
+	public void keyReleased(KeyEvent e)
+	{
+	}
+	
+	public void keyTyped(KeyEvent e)
+	{
+	}
+
 }

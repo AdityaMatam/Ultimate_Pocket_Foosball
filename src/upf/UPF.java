@@ -8,7 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 
-public class UPF {
+public class UPF{
 
 	//static ImageIcon phone = new ImageIcon("resources/phone.png");
 	static JFrame f = new JFrame("Ultimate Pocket Foosball");
@@ -20,9 +20,11 @@ public class UPF {
 		ImageIcon phone = new ImageIcon("resources/phone.png");
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setResizable(false);
+		UPF.f.setFocusable(true);
 		f.setBounds(200, 100, 280 + 6, 550 + 25);
 		f.setLayout(null);
 		
+		lp.setFocusable(true);
 		// Phone
 		JLabel pBackground = new JLabel(phone);
 		pBackground.setSize(280, 550);
