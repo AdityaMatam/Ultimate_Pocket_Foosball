@@ -6,9 +6,6 @@ import java.awt.*;
 import javax.swing.*;
 
 import java.awt.event.*;
-import java.net.URL;
-import java.util.Arrays;
-import java.util.Collections;
 
 public class Game1 implements ActionListener, KeyListener
 {
@@ -17,11 +14,7 @@ public class Game1 implements ActionListener, KeyListener
 	Font buttonBig = new Font("Eras Demi ITC", Font.PLAIN, 25);
 	Font adFont = new Font("Arial", Font.PLAIN, 20);
 	static JButton play1, play2, ad;
-	/*
-	static int[] x1 = { 80, 136, 188, 57, 110, 159, 210, 108, 163, 136 };
-	static int[] x2 = x1;
-	static int[] y = { 125, 155, 195, 235, 291, 330, 370, 402 };
-	*/
+	static JLabel ball;
 	static JLabel[] player1 = new JLabel[10], player2 = new JLabel[10];
 	PlayerMovement move = new PlayerMovement();
 
@@ -70,6 +63,11 @@ public class Game1 implements ActionListener, KeyListener
 			move.player2Position(i);
 		}
 
+		//Ball
+		ImageIcon soccer = new ImageIcon("resources/ball.png");
+		ball = new JLabel (soccer);
+		ball.setBounds(136,265,7,7);
+
 		// Ad button
 		UPF.ad.addActionListener(this);
 
@@ -78,14 +76,26 @@ public class Game1 implements ActionListener, KeyListener
 		UPF.lp.add(net1, new Integer(2));
 		UPF.lp.add(net2, new Integer(2));
 		for (int i = 0; i != 8; i++)
-			UPF.lp.add(bar[i], new Integer(3));
+			UPF.lp.add(bar[i], new Integer(4));
 		for (int i = 0; i != 10; i++)
 		{
-			UPF.lp.add(player1[i], new Integer(4));
-			UPF.lp.add(player2[i], new Integer(4));
+			UPF.lp.add(player1[i], new Integer(5));
+			UPF.lp.add(player2[i], new Integer(5));
 		}
+		UPF.lp.add(ball,new Integer (3));
+		
 		UPF.f.repaint();
-
+		final BallMovement bMove = new BallMovement();
+		new Thread (new Runnable(){
+			@Override
+			public void run(){
+				while (true){
+					try {Thread.sleep(100);}
+					catch (InterruptedException e){};
+				bMove.updateBallPosition(ball, player1, player2);
+				}
+			}
+		}).start();
 	}
 
 	// Input
@@ -115,7 +125,6 @@ public class Game1 implements ActionListener, KeyListener
 		{
 				move.p1Right();
 		}
-
 	}
 
 	public void keyReleased(KeyEvent e)
@@ -125,5 +134,4 @@ public class Game1 implements ActionListener, KeyListener
 	public void keyTyped(KeyEvent e)
 	{
 	}
-
 }
