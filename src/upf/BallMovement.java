@@ -3,30 +3,7 @@ import java.awt.geom.*;
 
 import javax.swing.JLabel;
 public class BallMovement {
-	int xC = 140, yC = 266,xV = 4, yV=4;
-	Ellipse2D.Double b;
-	Ellipse2D.Double []p1 = new Ellipse2D.Double[10];
-	Ellipse2D.Double[]p2 = new Ellipse2D.Double[10];
-	public void updateBallPosition (JLabel ball, JLabel[] player1, JLabel[] player2){
-		xC+=xV;
-		yC+=yV;
-		b = new Ellipse2D.Double(xC, yC, 7,7);
-		for (int x =0;x<10;x++){
-			p1[x]=new Ellipse2D.Double(player1[x].getX(),player1[x].getY(),player1[x].getWidth(),player1[x].getHeight());
-			p2[x]=new Ellipse2D.Double(player2[x].getX(),player2[x].getY(),player2[x].getWidth(),player2[x].getHeight());
-		}
-		detectCollision(ball);
-		ball.setLocation(xC,yC);
-	}
-	public void detectCollision(JLabel ball){
-		if (xC<20 &&xV<0){
-			xV=-xV;
-		}
-		else if (xC >252 && xV>0){
-			xV=-xV;
-		}
-		else if (yC<89 &&yV<0){
-			yV=-yV;
+
 		}
 		else if (yC >440 && yV>0){
 			yV=-yV;
