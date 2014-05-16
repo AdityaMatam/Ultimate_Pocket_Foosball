@@ -5,6 +5,7 @@ public class PlayerMovement
 	int[] x1 = { 80, 136, 188, 57, 110, 159, 210, 108, 163, 136 };
 	int[] x2 = x1;
 	int[] y = { 125, 155, 195, 235, 291, 330, 370, 402 };
+	static int vP1=0, vP2=0;
 
 	public void player1Position(int i)
 	{
@@ -35,6 +36,7 @@ public class PlayerMovement
 		for (int i = 0; i != 10; i++)
 		{
 			x1[i] -= 3;
+			vP1=-3;
 			player1Position(i);
 		}
 	}
@@ -44,6 +46,7 @@ public class PlayerMovement
 		for (int i = 0; i != 10; i++)
 		{
 			x1[i] += 3;
+			vP1=3;
 			player1Position(i);
 		}
 	}

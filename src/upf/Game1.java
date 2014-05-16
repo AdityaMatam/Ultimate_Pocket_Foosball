@@ -90,7 +90,7 @@ public class Game1 implements ActionListener, KeyListener
 			@Override
 			public void run(){
 				while (true){
-					try {Thread.sleep(100);}
+					try {Thread.sleep(43);}
 					catch (InterruptedException e){};
 				bMove.updateBallPosition(ball, player1, player2);
 				}
