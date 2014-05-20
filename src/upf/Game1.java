@@ -17,6 +17,7 @@ public class Game1 implements ActionListener, KeyListener
 	static JLabel ball;
 	static JLabel[] player1 = new JLabel[10], player2 = new JLabel[10];
 	PlayerMovement move = new PlayerMovement();
+    static boolean[] keys = new boolean [4];
 
 	public Game1() {// Constructor (Output)
 		UPF.f.addKeyListener(this);
@@ -29,10 +30,10 @@ public class Game1 implements ActionListener, KeyListener
 
 		// Net
 		ImageIcon nett = new ImageIcon("resources/goalnett.png");
-		JLabel net1 = new JLabel(nett);
+		final JLabel net1 = new JLabel(nett);
 		net1.setBounds(100, 78, 82, 36);
 		ImageIcon netb = new ImageIcon("resources/goalnetb.png");
-		JLabel net2 = new JLabel(netb);
+		final JLabel net2 = new JLabel(netb);
 		net2.setBounds(100, 424, 82, 36);
 
 		// Bars
@@ -92,10 +93,24 @@ public class Game1 implements ActionListener, KeyListener
 				while (true){
 					try {Thread.sleep(43);}
 					catch (InterruptedException e){};
-				bMove.updateBallPosition(ball, player1, player2);
+				bMove.updateBallPosition(ball, player1, player2, net1, net2);
 				}
 			}
 		}).start();
+		new Thread (new Runnable(){
+            public void run(){
+                    while (true){
+                            try
+                    {
+                        Thread.sleep (10);
+                    }
+                    catch (Exception e)
+                    {
+                    }
+                            move.move();
+                    }
+            }
+    }).start();
 	}
 
 	// Input
@@ -114,22 +129,48 @@ public class Game1 implements ActionListener, KeyListener
 		}
 	}
 
-	public void keyPressed(KeyEvent e)
-	{
-		int k = e.getKeyCode();
-		if (k == KeyEvent.VK_LEFT && move.x1[3] > 20)
-		{
-				move.p1Left();
-		}
-		if (k == KeyEvent.VK_RIGHT & move.x1[6] < 250)
-		{
-				move.p1Right();
-		}
-	}
+    public void keyPressed(KeyEvent e)
+    {
+            int k = e.getKeyCode();
+            if (k == KeyEvent.VK_LEFT)
+            {
+                    keys[0]=true;
+            }
+            else if (k == KeyEvent.VK_RIGHT)
+            {
+                    keys[1]=true;
+            }
+            if (k == KeyEvent.VK_A)
+            {
+                    keys[2]=true;
+            }
+            else if (k == KeyEvent.VK_D)
+            {
+                    keys[3]=true;
+            }
+    }
 
-	public void keyReleased(KeyEvent e)
-	{
-	}
+    public void keyReleased(KeyEvent e)
+    {
+            int k = e.getKeyCode();
+            if (k == KeyEvent.VK_LEFT)
+            {
+                    keys[0]=false;
+            }
+            else if (k == KeyEvent.VK_RIGHT)
+            {
+                    keys[1]=false;
+            }
+            if (k == KeyEvent.VK_A)
+            {
+                    keys[2]=false;
+            }
+            else if (k == KeyEvent.VK_D)
+            {
+                    keys[3]=false;
+            }
+            
+    }
 	
 	public void keyTyped(KeyEvent e)
 	{
