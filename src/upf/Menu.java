@@ -10,7 +10,7 @@ public class Menu implements ActionListener
 {
 	// Declarations
 	Font title = new Font("Berlin Sans FB Demi", Font.PLAIN, 42);
-	Font buttonBig = new Font("Eras Demi ITC", Font.PLAIN, 25);
+	Font buttonBig = new Font("Eras Demi ITC", Font.PLAIN, 20);//25
 	static JLabel sBackground;
 	static JLabel title1, title2, title3 = new JLabel("Foosball", SwingConstants.CENTER);
 	static JButton play1, play2;
@@ -40,13 +40,13 @@ public class Menu implements ActionListener
 		title3.setForeground(Color.WHITE);
 
 		// Single Player button
-		play1 = new JButton("SINGLE PLAYER");
+		play1 = new JButton("SINGLE PLAYER (WIP)");
 		play1.setFont(buttonBig);
 		play1.setBounds(24, 250, 233, 40);
 		play1.addActionListener(this);
 
 		// 2 Player Button
-		play2 = new JButton("2 PLAYER (wip)");
+		play2 = new JButton("2 PLAYER");
 		play2.setFont(buttonBig);
 		play2.setBounds(24, 310, 233, 40);
 		play2.addActionListener(this);

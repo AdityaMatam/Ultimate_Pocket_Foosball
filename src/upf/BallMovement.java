@@ -59,7 +59,7 @@ public class BallMovement {
 		}
 		else if (b.intersects(n2[2])){
 			// goal
-			System.out.println("GOAL!!!!!");
+			System.out.println("GOAL!!!!!ole ole ");
 		}
 		for (int x =0;x<10;x++){
 			Rectangle2D.Double[] boundingRectp1 = new Rectangle2D.Double[5];
@@ -83,6 +83,16 @@ public class BallMovement {
 					xV-=test;
 					yV-=test;
 				}
+				else if (yV<=0){
+					if (xV<-1){
+						xV+=test;
+						yV-=test;
+					}
+					if (xV>1){
+						xV-=test;
+						yV-=test;
+					}
+				}
 				if (yV>=0){
 					yV=-yV;
 				}
@@ -101,10 +111,21 @@ public class BallMovement {
 					xV+=test;
 					yV-=test;
 				}
+				else if (yV<=0){
+					if (xV<-1){
+						xV+=test;
+						yV-=test;
+					}
+					if (xV>1){
+						xV-=test;
+						yV-=test;
+					}
+				}
 				if (yV>=0){
 					yV=-yV;
 					
 				}
+				
 				
 				System.out.println ("X: "+xV+ " Y: "+yV);
 
@@ -126,6 +147,16 @@ public class BallMovement {
 					xV-=test;
 					yV+=test;
 				}
+				else if (yV>=0){
+					if (xV<-1){
+						xV+=test;
+						yV+=test;
+					}
+					if (xV>1){
+						xV-=test;
+						yV+=test;
+					}
+				}
 				if (yV<=0){
 					
 					yV=-yV;
@@ -146,6 +177,16 @@ public class BallMovement {
 				else if (xV>1 && (yV<-1&&yV>=-8)){
 					xV+=test;
 					yV+=test;
+				}
+				else if (yV>=0){
+					if (xV<-1){
+						xV+=test;
+						yV+=test;
+					}
+					if (xV>1){
+						xV-=test;
+						yV+=test;
+					}
 				}
 				if (yV<=0){
 					yV=-yV;
