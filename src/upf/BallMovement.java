@@ -11,10 +11,12 @@ public class BallMovement {
 		xC+=xV;
 		yC+=yV;
 		b = new Ellipse2D.Double(xC, yC, 7,7);
-		Rectangle2D.Double[] n1 = {new Rectangle2D.Double(net1.getX(),net1.getY(),4,net1.getHeight()), new Rectangle2D.Double((net1.getX()+(net1.getWidth()-4)),net1.getY(),4,net1.getHeight()),
-				new Rectangle2D.Double((net1.getX()+4),net1.getY(),(net1.getWidth()-8),4)};
-		Rectangle2D.Double [] n2 = {new Rectangle2D.Double(net2.getX(),net2.getY(),4,net2.getHeight()),new Rectangle2D.Double((net2.getX()+(net2.getWidth()-4)),net2.getY(),4,net2.getHeight()),
-				new Rectangle2D.Double((net2.getX()+4),net2.getY(),(net2.getWidth()-8),4)};
+		Rectangle2D.Double[] n1 = {new Rectangle2D.Double(net1.getX(),net1.getY(),1,net1.getHeight()), 
+				new Rectangle2D.Double((net1.getX()+(net1.getWidth()-1)),net1.getY(),1,net1.getHeight()),
+				new Rectangle2D.Double((net1.getX()+1),net1.getY(),(net1.getWidth()-6),net1.getHeight())};
+		Rectangle2D.Double [] n2 = {new Rectangle2D.Double(net2.getX(),net2.getY(),1,net2.getHeight()),
+				new Rectangle2D.Double((net2.getX()+(net2.getWidth()-1)),net2.getY(),1,net2.getHeight()),
+				new Rectangle2D.Double((net2.getX()+1),net2.getY(),(net2.getWidth()-6),net1.getHeight())};
 		for (int x =0;x<10;x++){
 			p1[x]=new Ellipse2D.Double(player1[x].getX(),player1[x].getY(),player1[x].getWidth(),player1[x].getHeight());
 			p2[x]=new Ellipse2D.Double(player2[x].getX(),player2[x].getY(),player2[x].getWidth(),player2[x].getHeight());
@@ -36,15 +38,34 @@ public class BallMovement {
 			yV=-yV;
 		}
 		if (b.intersects(n1[0])){
-			//left net
+			// left net rectangle
+			xV=-xV;
+		}
+		else if (b.intersects(n1[1])){
+			// right net rectangle
+			xV=-xV;
+		}
+		else if (b.intersects(n1[2])){
+			// goal
+			System.out.println("GOAL!!!!!");
+		}
+		if (b.intersects(n2[0])){
+			// left net rectangle
+			xV=-xV;
+		}
+		else if (b.intersects(n2[1])){
+			// right net rectangle
+			xV=-xV;
+		}
+		else if (b.intersects(n2[2])){
+			// goal
+			System.out.println("GOAL!!!!!");
 		}
 		for (int x =0;x<10;x++){
 			Rectangle2D.Double[] boundingRectp1 = new Rectangle2D.Double[5];
 			boundingRectp1 = createBoundingRect(p1[x]);
 			Rectangle2D.Double[] boundingRectp2 = new Rectangle2D.Double[5];
 			boundingRectp2 = createBoundingRect(p2[x]);
-			int vP1=new PlayerMovement().vP1;
-			int vP2 = new PlayerMovement().vP2;
 			int test=1;
 			if (b.intersects(boundingRectp1[2])){
 				// Center-most for player 1
