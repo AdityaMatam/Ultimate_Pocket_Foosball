@@ -17,6 +17,7 @@ public class Game1 implements ActionListener, KeyListener
 	static JLabel ball;
 	static JLabel[] player1 = new JLabel[10], player2 = new JLabel[10];
 	static int scoreCounter1=0, scoreCounter2=0;
+	AI bob = new AI();
 	PlayerMovement move = new PlayerMovement();
     static boolean[] keys = new boolean [4];
 
@@ -96,6 +97,14 @@ public class Game1 implements ActionListener, KeyListener
 					try {Thread.sleep(43);}
 					catch (InterruptedException e){};
 				bMove.updateBallPosition(ball, player1, player2, net1, net2);
+				}
+			}
+		}).start();
+		new Thread (new Runnable(){
+			@Override
+			public void run(){
+				while (true){
+					bob.move();
 				}
 			}
 		}).start();
