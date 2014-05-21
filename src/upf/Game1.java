@@ -90,6 +90,7 @@ public class Game1 implements ActionListener, KeyListener
 		new Thread (new Runnable(){
 			@Override
 			public void run(){
+				bMove.resetBall();
 				while (true){
 					try {Thread.sleep(43);}
 					catch (InterruptedException e){};

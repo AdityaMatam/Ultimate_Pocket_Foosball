@@ -3,7 +3,8 @@ import java.awt.geom.*;
 
 import javax.swing.JLabel;
 public class BallMovement {
-	int xC = 140, yC = 266,xV = 5, yV=3;
+	int xC = 140, yC = 266, yV=0, xV=0;
+	boolean test = true;
 	Ellipse2D.Double b;
 	Ellipse2D.Double []p1 = new Ellipse2D.Double[10];
 	Ellipse2D.Double[]p2 = new Ellipse2D.Double[10];
@@ -48,6 +49,7 @@ public class BallMovement {
 		else if (b.intersects(n1[2])){
 			// goal
 			System.out.println("GOAL!!!!!");
+			resetBall();
 		}
 		if (b.intersects(n2[0])){
 			// left net rectangle
@@ -60,6 +62,7 @@ public class BallMovement {
 		else if (b.intersects(n2[2])){
 			// goal
 			System.out.println("GOAL!!!!!ole ole ");
+			resetBall();
 		}
 		for (int x =0;x<10;x++){
 			Rectangle2D.Double[] boundingRectp1 = new Rectangle2D.Double[5];
@@ -202,6 +205,21 @@ public class BallMovement {
 			rect [1]=new Rectangle2D.Double((player.getX()+4), player.getY(),3, player.height);
 			rect[2]= new Rectangle2D.Double((player.getX()+3), player.getY(),1, player.height);
 			return rect;
+		}
+		public void resetBall (){
+			xV=0;
+			yV=0;
+			while (xV == 0){
+			xV = (int)(Math.random()*16 -8);
+			if (Math.random()<0.5){
+				yV= 8-Math.abs(xV);
+			}
+			else {
+				yV = -(8-Math.abs(xV));
+			}
+			}
+			xC = 140; 
+			yC = 266;
 		}
 	}
 
