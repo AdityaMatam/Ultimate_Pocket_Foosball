@@ -12,12 +12,12 @@ public class BallMovement {
 		xC+=xV;
 		yC+=yV;
 		b = new Ellipse2D.Double(xC, yC, 7,7);
-		Rectangle2D.Double[] n1 = {new Rectangle2D.Double(net1.getX(),net1.getY(),1,net1.getHeight()), 
-				new Rectangle2D.Double((net1.getX()+(net1.getWidth()-1)),net1.getY(),1,net1.getHeight()),
-				new Rectangle2D.Double((net1.getX()+1),net1.getY(),(net1.getWidth()-6),net1.getHeight())};
-		Rectangle2D.Double [] n2 = {new Rectangle2D.Double(net2.getX(),net2.getY(),1,net2.getHeight()),
-				new Rectangle2D.Double((net2.getX()+(net2.getWidth()-1)),net2.getY(),1,net2.getHeight()),
-				new Rectangle2D.Double((net2.getX()+1),net2.getY(),(net2.getWidth()-6),net1.getHeight())};
+		Rectangle2D.Double[] n1 = {new Rectangle2D.Double(net1.getX()-1,net1.getY(),1,net1.getHeight()), 
+				new Rectangle2D.Double((net1.getX()+(net1.getWidth())),net1.getY(),1,net1.getHeight()),
+				new Rectangle2D.Double((net1.getX()),net1.getY(),(net1.getWidth()),net1.getHeight())};
+		Rectangle2D.Double [] n2 = {new Rectangle2D.Double(net2.getX()-1,net2.getY(),1,net2.getHeight()),
+				new Rectangle2D.Double((net2.getX()+(net2.getWidth())),net2.getY(),1,net2.getHeight()),
+				new Rectangle2D.Double((net2.getX()),net2.getY(),(net2.getWidth()),net1.getHeight())};
 		for (int x =0;x<10;x++){
 			p1[x]=new Ellipse2D.Double(player1[x].getX(),player1[x].getY(),player1[x].getWidth(),player1[x].getHeight());
 			p2[x]=new Ellipse2D.Double(player2[x].getX(),player2[x].getY(),player2[x].getWidth(),player2[x].getHeight());
@@ -47,8 +47,9 @@ public class BallMovement {
 			xV=-xV;
 		}
 		else if (b.intersects(n1[2])){
-			// goal
-			System.out.println("GOAL!!!!!");
+			// goal p1
+			Game1.scoreCounter1 +=1;
+			System.out.println(Game1.scoreCounter1);
 			resetBall();
 		}
 		if (b.intersects(n2[0])){
@@ -60,8 +61,9 @@ public class BallMovement {
 			xV=-xV;
 		}
 		else if (b.intersects(n2[2])){
-			// goal
-			System.out.println("GOAL!!!!!ole ole ");
+			// goal p2
+			Game1.scoreCounter2+=1;
+			System.out.println(Game1.scoreCounter2);
 			resetBall();
 		}
 		for (int x =0;x<10;x++){

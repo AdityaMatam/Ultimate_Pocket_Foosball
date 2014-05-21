@@ -16,6 +16,7 @@ public class Game1 implements ActionListener, KeyListener
 	static JButton play1, play2, ad;
 	static JLabel ball;
 	static JLabel[] player1 = new JLabel[10], player2 = new JLabel[10];
+	static int scoreCounter1=0, scoreCounter2=0;
 	PlayerMovement move = new PlayerMovement();
     static boolean[] keys = new boolean [4];
 
