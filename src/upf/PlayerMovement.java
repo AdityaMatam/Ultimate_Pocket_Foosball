@@ -10,25 +10,25 @@ public class PlayerMovement
         public void player1Position(int i)
         {
                 if (i < 3)
-                        Game1.player1[i].setLocation(x1[i], y[2]);
+                        Game.player1[i].setLocation(x1[i], y[2]);
                 else if (i < 7)
-                        Game1.player1[i].setLocation(x1[i], y[4]);
+                        Game.player1[i].setLocation(x1[i], y[4]);
                 else if (i < 9)
-                        Game1.player1[i].setLocation(x1[i], y[6]);
+                        Game.player1[i].setLocation(x1[i], y[6]);
                 else
-                        Game1.player1[i].setLocation(x1[i], y[7]);
+                        Game.player1[i].setLocation(x1[i], y[7]);
         }
 
         public void player2Position(int i)
         {
                 if (i < 3)
-                        Game1.player2[i].setLocation(x2[i], y[5]);
+                        Game.player2[i].setLocation(x2[i], y[5]);
                 else if (i < 7)
-                        Game1.player2[i].setLocation(x2[i], y[3]);
+                        Game.player2[i].setLocation(x2[i], y[3]);
                 else if (i < 9)
-                        Game1.player2[i].setLocation(x2[i], y[1]);
+                        Game.player2[i].setLocation(x2[i], y[1]);
                 else
-                        Game1.player2[i].setLocation(x2[i], y[0]);
+                        Game.player2[i].setLocation(x2[i], y[0]);
         }
 
         public void p1Left()
@@ -70,10 +70,10 @@ public class PlayerMovement
 
         public void move ()
         {
-                if (Game1.keys[0]&& x1[3] > 22)  {p1Left();}
-                if (Game1.keys[1]&& x1[6] < 252) {p1Right();}
-                if (Game1.keys[2]&& x2[3] > 22)  {p2Left();}
-                if (Game1.keys[3]&& x2[6] < 252) {p2Right();}
+                if (Game.keys[0]&& x1[3] > 22)  {p1Left();}
+                if (Game.keys[1]&& x1[6] < 252) {p1Right();}
+                if (Game.keys[2]&& x2[3] > 22)  {p2Left();}
+                if (Game.keys[3]&& x2[6] < 252) {p2Right();}
         }
 
 

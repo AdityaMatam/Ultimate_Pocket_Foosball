@@ -7,7 +7,7 @@ import javax.swing.*;
 
 import java.awt.event.*;
 
-public class Game1 implements ActionListener, KeyListener
+public class Game implements ActionListener, KeyListener
 {
 	// Declarations
 	Font title = new Font("Berlin Sans FB Demi", Font.PLAIN, 42);
@@ -15,13 +15,13 @@ public class Game1 implements ActionListener, KeyListener
 	Font adFont = new Font("Arial", Font.PLAIN, 20);
 	static JButton play1, play2, ad;
 	static JLabel ball;
-	static JLabel[] player1 = new JLabel[10], player2 = new JLabel[10];
+	static JLabel[] player1 = new JLabel[10], player2 = new JLabel[10], blueKick = new JLabel [10], redKick = new JLabel [10];
 	static int scoreCounter1=0, scoreCounter2=0;
-	AI bob = new AI();
 	PlayerMovement move = new PlayerMovement();
+	AI bob = new AI();
     static boolean[] keys = new boolean [4];
 
-	public Game1() {// Constructor (Output)
+	public Game() {// Constructor (Output)
 		UPF.f.addKeyListener(this);
 		UPF.f.requestFocusInWindow();
 		
@@ -65,7 +65,22 @@ public class Game1 implements ActionListener, KeyListener
 			player2[i].setSize(9, 9);
 			move.player2Position(i);
 		}
-
+		
+		//PlayerKick
+		ImageIcon kick1 = new ImageIcon("resources/kick blue.png");
+		ImageIcon kick2 = new ImageIcon("resources/kick red.png");
+		for (int i = 0;i!= 10;i++)
+		{
+			blueKick[i] = new JLabel(kick1);
+			blueKick[i].setSize(7,7);
+			blueKick[i].setVisible(false);
+			redKick[i]= new JLabel(kick2);
+			redKick[i].setSize(7,7);
+			redKick[i].setVisible(false);
+		}
+			
+		
+		
 		//Ball
 		ImageIcon soccer = new ImageIcon("resources/ball.png");
 		ball = new JLabel (soccer);
@@ -84,8 +99,12 @@ public class Game1 implements ActionListener, KeyListener
 		{
 			UPF.lp.add(player1[i], new Integer(5));
 			UPF.lp.add(player2[i], new Integer(5));
+			UPF.lp.add (blueKick[i], new Integer (4));
+			UPF.lp.add (redKick[i], new Integer (4));
 		}
 		UPF.lp.add(ball,new Integer (3));
+
+		
 		
 		UPF.f.repaint();
 		final BallMovement bMove = new BallMovement();
@@ -101,28 +120,34 @@ public class Game1 implements ActionListener, KeyListener
 			}
 		}).start();
 		new Thread (new Runnable(){
-			@Override
-			public void run(){
-				while (true){
-					bob.move();
-				}
-			}
-		}).start();
-		new Thread (new Runnable(){
             public void run(){
                     while (true){
                             try
                     {
                         Thread.sleep (10);
                     }
-                    catch (Exception e)
+                    catch (InterruptedException e)
                     {
                     }
                             move.move();
                     }
             }
     }).start();
-	}
+	new Thread (new Runnable(){
+        public void run(){
+                while (true){
+                        try
+                {
+                    Thread.sleep (10);
+                }
+                catch (InterruptedException e)
+                {
+                }
+                        bob.move();
+                }
+        }
+}).start();
+}
 
 	// Input
 	public void actionPerformed(ActionEvent e)
@@ -132,8 +157,6 @@ public class Game1 implements ActionListener, KeyListener
 			UPF.f.dispose();
 			try
 			{
-				// Desktop.getDesktop().browse(
-				// new URL("http://omfgdogs.com/").toURI());
 			} catch (Exception a)
 			{
 			}
@@ -151,11 +174,11 @@ public class Game1 implements ActionListener, KeyListener
             {
                     keys[1]=true;
             }
-            if (k == KeyEvent.VK_A)
+            if (k == KeyEvent.VK_A & Menu.gameMode)
             {
                     keys[2]=true;
             }
-            else if (k == KeyEvent.VK_D)
+            else if (k == KeyEvent.VK_D & Menu.gameMode)
             {
                     keys[3]=true;
             }
@@ -172,11 +195,11 @@ public class Game1 implements ActionListener, KeyListener
             {
                     keys[1]=false;
             }
-            if (k == KeyEvent.VK_A)
+            if (k == KeyEvent.VK_A& Menu.gameMode)
             {
                     keys[2]=false;
             }
-            else if (k == KeyEvent.VK_D)
+            else if (k == KeyEvent.VK_D& Menu.gameMode)
             {
                     keys[3]=false;
             }

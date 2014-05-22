@@ -10,13 +10,15 @@ public class Menu implements ActionListener
 {
 	// Declarations
 	Font title = new Font("Berlin Sans FB Demi", Font.PLAIN, 42);
-	Font buttonBig = new Font("Eras Demi ITC", Font.PLAIN, 20);//25
+	Font buttonBig = new Font("Eras Demi ITC", Font.PLAIN, 20);// 25
 	static JLabel sBackground;
-	static JLabel title1, title2, title3 = new JLabel("Foosball", SwingConstants.CENTER);
+	static JLabel title1, title2, title3 = new JLabel("Foosball",
+			SwingConstants.CENTER);
 	static JButton play1, play2;
-	
+	static boolean gameMode; 
+
 	public Menu() {// Constructor (Output)
-		
+
 		// Background
 		sBackground = new JLabel(new ImageIcon("resources/menuBKG.jpg"));
 		sBackground.setBounds(14, 46, 253, 445);
@@ -50,7 +52,7 @@ public class Menu implements ActionListener
 		play2.setFont(buttonBig);
 		play2.setBounds(24, 310, 233, 40);
 		play2.addActionListener(this);
-		
+
 		// Ad button
 		UPF.ad.addActionListener(this);
 
@@ -63,7 +65,18 @@ public class Menu implements ActionListener
 		UPF.lp.add(play2, new Integer(2));
 		
 		UPF.f.repaint();
+	}
 
+	public void remove()
+	{
+		UPF.lp.remove(sBackground);
+		UPF.lp.remove(title1);
+		UPF.lp.remove(title2);
+		UPF.lp.remove(title3);
+		UPF.lp.remove(play1);
+		UPF.lp.remove(play2);
+		UPF.f.repaint();
+		UPF.ad.removeActionListener(this);
 	}
 
 	// Input
@@ -71,34 +84,24 @@ public class Menu implements ActionListener
 	{
 		// Processing
 		if (e.getSource() == play1)
-		{	
-			UPF.lp.remove(sBackground);
-			UPF.lp.remove(title1);
-			UPF.lp.remove(title2);
-			UPF.lp.remove(title3);
-			UPF.lp.remove(play1);
-			UPF.lp.remove(play2);
-			UPF.f.repaint();
-			UPF.ad.removeActionListener(this);
-			new Game1();
-
+		{
+			remove();
+			gameMode = false;
+			new Game();
+		
 		}
 		if (e.getSource() == play2)
 		{
-			try
-			{
-				Desktop.getDesktop().browse(
-						new URL("http://heyyeyaaeyaaaeyaeyaa.com/").toURI());
-			} catch (Exception a)
-			{
-			}
+			remove();
+			gameMode = true;
+			new Game();
 		}
 		if (e.getSource() == UPF.ad)
 		{
 			try
 			{
 				Desktop.getDesktop().browse(
-						new URL("http://www.theuselessweb.com/").toURI());
+						new URL("http://heyyeyaaeyaaaeyaeyaa.com/").toURI());
 			} catch (Exception a)
 			{
 			}

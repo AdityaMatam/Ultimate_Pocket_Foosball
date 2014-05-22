@@ -20,7 +20,7 @@ public class UPF{
 		ImageIcon phone = new ImageIcon("resources/phone.png");
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setResizable(false);
-		UPF.f.setFocusable(true);
+		f.setFocusable(true);
 		f.setBounds(200, 100, 280 + 6, 550 + 25);
 		f.setLayout(null);
 		
