@@ -11,6 +11,7 @@ public class Menu implements ActionListener
 	// Declarations
 	Font title = new Font("Berlin Sans FB Demi", Font.PLAIN, 42);
 	Font buttonBig = new Font("Eras Demi ITC", Font.PLAIN, 20);// 25
+	AI bob = new AI();
 	static JLabel sBackground;
 	static JLabel title1, title2, title3 = new JLabel("Foosball",
 			SwingConstants.CENTER);
@@ -88,7 +89,15 @@ public class Menu implements ActionListener
 			remove();
 			gameMode = false;
 			new Game();
-		
+			new Thread (new Runnable(){
+		        public void run(){
+		                while (true){
+		                        
+		               UPF.pause(20);
+		                        bob.move(Game.player2);
+		                }
+		        }
+		}).start();
 		}
 		if (e.getSource() == play2)
 		{

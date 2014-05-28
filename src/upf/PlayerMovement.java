@@ -4,31 +4,29 @@ public class PlayerMovement
 {
         int[] x1 = { 80, 136, 188, 57, 110, 159, 210, 108, 163, 136 };
         int[] x2 = { 80, 136, 188, 57, 110, 159, 210, 108, 163, 136 };
-        int[] y = { 125, 155, 195, 235, 291, 330, 370, 402 };
-        static int vP1=0, vP2=0;
-
+        int[] y1 = {195,291,370,402};
+        int[] y2 = {125,155,235,330};
         public void player1Position(int i)
         {
-                if (i < 3)
-                        Game.player1[i].setLocation(x1[i], y[2]);
-                else if (i < 7)
-                        Game.player1[i].setLocation(x1[i], y[4]);
-                else if (i < 9)
-                        Game.player1[i].setLocation(x1[i], y[6]);
-                else
-                        Game.player1[i].setLocation(x1[i], y[7]);
-        }
-
+            if (i < 3)
+                    Game.player1[i].setLocation(x1[i], y1[0]-3);
+            else if (i < 7)
+                    Game.player1[i].setLocation(x1[i], y1[1]-3);
+            else if (i < 9)
+                    Game.player1[i].setLocation(x1[i], y1[2]-3);
+            else
+                    Game.player1[i].setLocation(x1[i], y1[3]-3);
+    }
         public void player2Position(int i)
         {
                 if (i < 3)
-                        Game.player2[i].setLocation(x2[i], y[5]);
+                        Game.player2[i].setLocation(x2[i], y2[3]);
                 else if (i < 7)
-                        Game.player2[i].setLocation(x2[i], y[3]);
+                        Game.player2[i].setLocation(x2[i], y2[2]);
                 else if (i < 9)
-                        Game.player2[i].setLocation(x2[i], y[1]);
+                        Game.player2[i].setLocation(x2[i], y2[1]);
                 else
-                        Game.player2[i].setLocation(x2[i], y[0]);
+                        Game.player2[i].setLocation(x2[i], y2[0]);
         }
 
         public void p1Left()
@@ -36,7 +34,6 @@ public class PlayerMovement
                 for (int i = 0; i != 10; i++)
                 {
                         x1[i] -= 3;
-                        vP1=-3;
                         player1Position(i);
                 }
         }
@@ -46,7 +43,6 @@ public class PlayerMovement
                 for (int i = 0; i != 10; i++)
                 {
                         x1[i] += 3;
-                        vP1=3;
                         player1Position(i);
                 }
         }

@@ -1,7 +1,9 @@
 package upf;
 
+import java.awt.Color;
 import java.awt.geom.*;
 
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 public class BallMovement
@@ -19,19 +21,19 @@ public class BallMovement
 		yC += yV;
 		b = new Ellipse2D.Double(xC, yC, 7, 7);
 		Rectangle2D.Double[] n1 = {
-				new Rectangle2D.Double(net1.getX() - 1, net1.getY(), 1, net1
-						.getHeight()),
-				new Rectangle2D.Double((net1.getX() + (net1.getWidth())), net1
-						.getY(), 1, net1.getHeight()),
-				new Rectangle2D.Double((net1.getX()), net1.getY(), (net1
-						.getWidth()), net1.getHeight()) };
+				new Rectangle2D.Double(net1.getX() - 1, net1.getY(), 1,
+						net1.getHeight()),
+				new Rectangle2D.Double((net1.getX() + (net1.getWidth())),
+						net1.getY(), 1, net1.getHeight()),
+				new Rectangle2D.Double((net1.getX()), net1.getY(),
+						(net1.getWidth()), net1.getHeight()) };
 		Rectangle2D.Double[] n2 = {
-				new Rectangle2D.Double(net2.getX() - 1, net2.getY(), 1, net2
-						.getHeight()),
-				new Rectangle2D.Double((net2.getX() + (net2.getWidth())), net2
-						.getY(), 1, net2.getHeight()),
-				new Rectangle2D.Double((net2.getX()), net2.getY(), (net2
-						.getWidth()), net1.getHeight()) };
+				new Rectangle2D.Double(net2.getX() - 1, net2.getY(), 1,
+						net2.getHeight()),
+				new Rectangle2D.Double((net2.getX() + (net2.getWidth())),
+						net2.getY(), 1, net2.getHeight()),
+				new Rectangle2D.Double((net2.getX()), net2.getY(),
+						(net2.getWidth()), net1.getHeight()) };
 		for (int x = 0; x < 10; x++)
 		{
 			p1[x] = new Ellipse2D.Double(player1[x].getX(), player1[x].getY(),
@@ -71,6 +73,10 @@ public class BallMovement
 			// goal p1
 			Game.scoreCounter1 += 1;
 			System.out.println(Game.scoreCounter1);
+			// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			// red team
+			goal(true, Game.scoreCounter1);
+			// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			resetBall();
 		}
 		if (b.intersects(n2[0]))
@@ -86,6 +92,12 @@ public class BallMovement
 			// goal p2
 			Game.scoreCounter2 += 1;
 			System.out.println(Game.scoreCounter2);
+			// //////////////////////////////////////////////////////////////////////////
+			// //////////////////////////////////////////////////////////////////////////////blue
+			// team
+			goal(false, Game.scoreCounter2);
+			// ///////////////////////////////////////////////////////////////////////////
+			// /////////////////////////////////////////////////////////////////////////////
 			resetBall();
 		}
 		for (int x = 0; x < 10; x++)
@@ -253,6 +265,21 @@ public class BallMovement
 
 	public void resetBall()
 	{
+		// ////////////////////////////////////////////////////////////////////////////////////
+		Game.ball.setVisible(false);
+		Game.countdown.setVisible(true);
+		for (int i = 3; i != 0; i--)
+		{
+			Game.countdown.setText("" + i);
+			Game.countdown.setFont(Game.countdownFont1);
+			UPF.pause(750);
+			Game.countdown.setFont(Game.countdownFont2);
+			UPF.pause(250);
+		}
+		Game.countdown.setVisible(false);
+		Game.ball.setVisible(true);
+		// ////////////////////////////////////////////////////////////////////////////////////
+		AI.yCoord=BallMovement.yC;
 		xV = 0;
 		yV = 0;
 		while (xV == 0)
@@ -270,72 +297,120 @@ public class BallMovement
 		yC = 266;
 	}
 
+	// ///////////////////////////////////////////////////////////////////////////
 	public void kick(int row)
 	{
 		switch (row) {
 		case 1:
-			kickAnim(1, 2, false, row);
+			new Thread(new Runnable() {
+				public void run()
+				{
+					kickAnim(1, 2, false, 1);
+				}
+			}).start();
 			break;
 		case 2:
-			kickAnim(2, 4, false, row);
+			new Thread(new Runnable() {
+				public void run()
+				{
+					kickAnim(2, 4, false, 2);
+				}
+			}).start();
 			break;
 		case 3:
-			kickAnim(10, 7, true, row);
+			new Thread(new Runnable() {
+				public void run()
+				{
+					kickAnim(10, 7, true, 3);
+				}
+			}).start();
 			break;
 		case 4:
-			kickAnim(4, 8, false, row);
+			new Thread(new Runnable() {
+				public void run()
+				{
+					kickAnim(4, 8, false, 4);
+				}
+			}).start();
 			break;
 		case 5:
-			kickAnim(7, 3, true, row);
+			new Thread(new Runnable() {
+				public void run()
+				{
+					kickAnim(7, 3, true, 5);
+				}
+			}).start();
 			break;
 		case 6:
-			kickAnim(8, 11, false, row);
+			new Thread(new Runnable() {
+				public void run()
+				{
+					kickAnim(8, 11, false, 6);
+				}
+			}).start();
 			break;
 		case 7:
-			kickAnim(3, 1, true, row);
+			new Thread(new Runnable() {
+				public void run()
+				{
+					kickAnim(3, 1, true, 7);
+				}
+			}).start();
 			break;
 		case 8:
-			kickAnim(1, 0, true, row);
+			new Thread(new Runnable() {
+				public void run()
+				{
+					kickAnim(1, 0, true, 8);
+				}
+			}).start();
 			break;
-
 		}
-
 	}
 
 	public void kickAnim(int start, int end, boolean colour, int row)
 	{
-		PlayerMovement move = new PlayerMovement();
+		// PlayerKick
+		ImageIcon kickb = new ImageIcon("resources/kick blue.png");
+		ImageIcon kickr = new ImageIcon("resources/kick red.png");
+
 		for (int i = start; i != end; i++)
 		{
 			if (!colour)
-			{
-				Game.redKick[i - 1].setVisible(true);
-				Game.redKick[i - 1].setLocation(move.y[row - 1] + 4,
-						move.x2[i - 1] + 2);
-			} else
-			{
-				Game.blueKick[i - 1].setVisible(true);
-				Game.blueKick[i - 1].setLocation(move.y[row - 1] + 4,
-						move.x2[i - 1] + 2);
-			}
+				Game.player2[i - 1] = new JLabel(kickr);
+			else
+				Game.player1[i - 1] = new JLabel(kickb);
+
 			if (colour)
 				i -= 2;
 		}
-		try
-		{
-			Thread.sleep(150);
-		} catch (InterruptedException e)
-		{
-		}
+		UPF.pause(150);
 		for (int i = start; i != end; i++)
 		{
 			if (!colour)
-				Game.redKick[i - 1].setVisible(false);
+				Game.player2[i - 1] = new JLabel(Game.playerR);
 			else
-				Game.blueKick[i - 1].setVisible(false);
+				Game.player1[i - 1] = new JLabel(Game.playerB);
 			if (colour)
 				i -= 2;
 		}
 	}
 
+	public void goal(boolean colour, int score)
+	{
+		if (colour)
+		{
+			Game.scoreBlue.setText("" + score);
+			Game.goal.setForeground(Color.blue);
+		} else
+		{
+			Game.scoreRed.setText("" + score);
+			Game.goal.setForeground(Color.red);
+		}
+		Game.goal.setVisible(true);
+		UPF.pause(2000);
+		Game.goal.setVisible(false);
+	}
+
+	// ///////////////////////////////////////////////////////////////////////////
 }
