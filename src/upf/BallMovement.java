@@ -47,6 +47,7 @@ public class BallMovement
 
 	public void detectCollision(Rectangle2D.Double[] n1, Rectangle2D.Double[] n2)
 	{
+		
 		if (xC < 20 && xV < 0)
 		{
 			xV = -xV;
@@ -109,7 +110,7 @@ public class BallMovement
 			int test = 1;
 			if (b.intersects(boundingRectp1[2]))
 			{
-				// Center-most for player 1
+				// Center-most rectangle for player 1
 				if (yV >= 0)
 					yV = -yV;
 				System.out.println("X: " + xV + " Y: " + yV);
@@ -298,8 +299,66 @@ public class BallMovement
 	}
 
 	// ///////////////////////////////////////////////////////////////////////////
-	public void kick(int row)
+	
+	public void kick(int y)
 	{
+		if (y >= 125-2 & y <= 125+7)
+			new Thread(new Runnable() {
+				public void run()
+				{
+					kickAnim(1, 2, false, 1);
+				}
+			}).start();
+		else if (y >= 155-2 & y <= 155+7)
+			new Thread(new Runnable() {
+				public void run()
+				{
+					kickAnim(2, 4, false, 2);
+				}
+			}).start();
+		else if (y >= 195-2 & y <= 195+7)
+			new Thread(new Runnable() {
+				public void run()
+				{
+					kickAnim(10, 7, true, 3);
+				}
+			}).start();
+		else if (y >= 235-2 & y <= 235+7)
+			new Thread(new Runnable() {
+				public void run()
+				{
+					kickAnim(4, 8, false, 4);
+				}
+			}).start();
+		else if (y >= 291-2 & y <= 291+7)
+			new Thread(new Runnable() {
+				public void run()
+				{
+					kickAnim(7, 3, true, 5);
+				}
+			}).start();
+		else if (y >= 330-2 & y <= 330+7)
+			new Thread(new Runnable() {
+				public void run()
+				{
+					kickAnim(8, 11, false, 6);
+				}
+			}).start();
+		else if (y >= 370-2 & y <= 370+7)
+			new Thread(new Runnable() {
+				public void run()
+				{
+					kickAnim(3, 1, true, 7);
+				}
+			}).start();
+		else if (y >= 402-2 & y <= 402+7)
+			new Thread(new Runnable() {
+				public void run()
+				{
+					kickAnim(1, 0, true, 8);
+				}
+			}).start();
+		/*
 		switch (row) {
 		case 1:
 			new Thread(new Runnable() {
@@ -366,6 +425,7 @@ public class BallMovement
 			}).start();
 			break;
 		}
+		*/
 	}
 
 	public void kickAnim(int start, int end, boolean colour, int row)

@@ -15,8 +15,9 @@ public class Menu implements ActionListener
 	static JLabel sBackground;
 	static JLabel title1, title2, title3 = new JLabel("Foosball",
 			SwingConstants.CENTER);
-	static JButton play1, play2;
-	static boolean gameMode; 
+	static JButton play1, play2, easy, normal, hard;
+	static boolean gameMode;
+	static int difficulty;
 
 	public Menu() {// Constructor (Output)
 
@@ -54,6 +55,28 @@ public class Menu implements ActionListener
 		play2.setBounds(24, 310, 233, 40);
 		play2.addActionListener(this);
 
+		// Difficulty
+		// Easy
+		easy = new JButton("EASY");
+		easy.setFont(buttonBig);
+		easy.setBounds(24, 250, 233, 40);
+		easy.addActionListener(this);
+		easy.setVisible(false);
+
+		// Normal
+		normal = new JButton("NORMAL");
+		normal.setFont(buttonBig);
+		normal.setBounds(24, 310, 233, 40);
+		normal.addActionListener(this);
+		normal.setVisible(false);
+
+		// Normal
+		hard = new JButton("HARD");
+		hard.setFont(buttonBig);
+		hard.setBounds(24, 370, 233, 40);
+		hard.addActionListener(this);
+		hard.setVisible(false);
+
 		// Ad button
 		UPF.ad.addActionListener(this);
 
@@ -64,7 +87,10 @@ public class Menu implements ActionListener
 		UPF.lp.add(title3, new Integer(2));
 		UPF.lp.add(play1, new Integer(2));
 		UPF.lp.add(play2, new Integer(2));
-		
+		UPF.lp.add(easy, new Integer(2));
+		UPF.lp.add(normal, new Integer(2));
+		UPF.lp.add(hard, new Integer(2));
+
 		UPF.f.repaint();
 	}
 
@@ -76,6 +102,9 @@ public class Menu implements ActionListener
 		UPF.lp.remove(title3);
 		UPF.lp.remove(play1);
 		UPF.lp.remove(play2);
+		UPF.lp.remove(easy);
+		UPF.lp.remove(normal);
+		UPF.lp.remove(hard);
 		UPF.f.repaint();
 		UPF.ad.removeActionListener(this);
 	}
@@ -86,24 +115,29 @@ public class Menu implements ActionListener
 		// Processing
 		if (e.getSource() == play1)
 		{
-			remove();
-			gameMode = false;
-			new Game();
-			new Thread (new Runnable(){
-		        public void run(){
-		                while (true){
-		                        
-		               UPF.pause(20);
-		                        bob.move(Game.player2);
-		                }
-		        }
-		}).start();
-		}
-		if (e.getSource() == play2)
+			play1.setVisible(false);
+			play2.setVisible(false);
+			easy.setVisible(true);
+			normal.setVisible(true);
+			hard.setVisible(true);
+
+		} else if (e.getSource() == play2)
 		{
-			remove();
-			gameMode = true;
-			new Game();
+			play(true);
+		}
+
+		if (e.getSource() == easy)
+		{
+			difficulty = 0;
+			play(false);
+		} else if (e.getSource() == normal)
+		{
+			difficulty = 1;
+			play(false);
+		} else if (e.getSource() == hard)
+		{
+			difficulty = 2;
+			play(false);
 		}
 		if (e.getSource() == UPF.ad)
 		{
@@ -116,5 +150,30 @@ public class Menu implements ActionListener
 			}
 		}
 
+	}
+
+	public void play(boolean gameMode)
+	{
+		remove();
+		new Game();
+		if (gameMode)
+			gameMode = true;
+		else
+		{
+			gameMode = false;
+			new Thread(new Runnable() {
+				public void run()
+				{
+					while (true)
+					{
+						UPF.pause(10);
+						if (difficulty == 0)
+							bob.moveRandom(Game.player2);
+						else
+							bob.move(Game.player2);
+					}
+				}
+			}).start();
+		}
 	}
 }

@@ -41,7 +41,7 @@ public class AI {
 	}
 	public void move(JLabel [] player2){
 		yCoord = BallMovement.yC;
-		if (BallMovement.yV>0){
+		//if (BallMovement.yV>0){
 			outerloop:
 			while (true){
 				yCoord += BallMovement.yV;
@@ -51,8 +51,9 @@ public class AI {
 						break outerloop;
 					}
 				}
-			}
+		//	}
 		}
+		/*
 		else if (BallMovement.yV<0){
 			outerloop:
 			while (true){
@@ -65,6 +66,7 @@ public class AI {
 				}
 			}
 		}
+		*/
 		if (row ==0){
 			//Goalie
 			determineDirection(BallMovement.xC-player2[0].getX());
