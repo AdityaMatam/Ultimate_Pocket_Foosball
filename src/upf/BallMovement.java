@@ -20,20 +20,8 @@ public class BallMovement
 		xC += xV;
 		yC += yV;
 		b = new Ellipse2D.Double(xC, yC, 7, 7);
-		Rectangle2D.Double[] n1 = {
-				new Rectangle2D.Double(net1.getX() - 1, net1.getY(), 1,
-						net1.getHeight()),
-				new Rectangle2D.Double((net1.getX() + (net1.getWidth())),
-						net1.getY(), 1, net1.getHeight()),
-				new Rectangle2D.Double((net1.getX()), net1.getY(),
-						(net1.getWidth()), net1.getHeight()) };
-		Rectangle2D.Double[] n2 = {
-				new Rectangle2D.Double(net2.getX() - 1, net2.getY(), 1,
-						net2.getHeight()),
-				new Rectangle2D.Double((net2.getX() + (net2.getWidth())),
-						net2.getY(), 1, net2.getHeight()),
-				new Rectangle2D.Double((net2.getX()), net2.getY(),
-						(net2.getWidth()), net1.getHeight()) };
+		Rectangle2D.Double[] n1 = createNet(net1);
+		Rectangle2D.Double[] n2 = createNet(net2);
 		for (int x = 0; x < 10; x++)
 		{
 			p1[x] = new Ellipse2D.Double(player1[x].getX(), player1[x].getY(),
@@ -44,7 +32,15 @@ public class BallMovement
 		detectCollision(n1, n2);
 		ball.setLocation(xC, yC);
 	}
-
+public Rectangle2D.Double[] createNet(JLabel net){
+	Rectangle2D.Double[] output = {new Rectangle2D.Double(net.getX() - 1, net.getY(), 1,
+			net.getHeight()),
+	new Rectangle2D.Double((net.getX() + (net.getWidth())),
+			net.getY(), 1, net.getHeight()),
+	new Rectangle2D.Double((net.getX()), net.getY(),
+			(net.getWidth()), net.getHeight()) };
+	return output;
+}
 	public void detectCollision(Rectangle2D.Double[] n1, Rectangle2D.Double[] n2)
 	{
 		
@@ -280,12 +276,11 @@ public class BallMovement
 		Game.countdown.setVisible(false);
 		Game.ball.setVisible(true);
 		// ////////////////////////////////////////////////////////////////////////////////////
-		AI.yCoord=BallMovement.yC;
 		xV = 0;
 		yV = 0;
 		while (xV == 0)
 		{
-			xV = (int) (Math.random() * 16 - 8);
+			xV = (int) (Math.random() * 14 - 7);
 			if (Math.random() < 0.5)
 			{
 				yV = 8 - Math.abs(xV);

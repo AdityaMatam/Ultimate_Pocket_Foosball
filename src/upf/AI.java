@@ -41,32 +41,18 @@ public class AI {
 	}
 	public void move(JLabel [] player2){
 		yCoord = BallMovement.yC;
-		//if (BallMovement.yV>0){
 			outerloop:
 			while (true){
+				if (yCoord<=0||yCoord>=490)
+					yCoord=BallMovement.yC;
 				yCoord += BallMovement.yV;
 				for (int x=0;x<4;x++){
-					if (Math.abs(yCoord-p2.y2[x])<=7){
+					if (Math.abs(yCoord-p2.y2[x])<=10){
 						row = x;
 						break outerloop;
 					}
 				}
-		//	}
 		}
-		/*
-		else if (BallMovement.yV<0){
-			outerloop:
-			while (true){
-				yCoord -= BallMovement.yV;
-				for (int x=0;x<4;x++){
-					if (Math.abs(yCoord-p2.y2[x])<=7){
-						row = x;
-						break outerloop;
-					}
-				}
-			}
-		}
-		*/
 		if (row ==0){
 			//Goalie
 			determineDirection(BallMovement.xC-player2[0].getX());
@@ -106,12 +92,9 @@ public class AI {
 		if (difference<0&&!(Game.player2[3].getX() - 1 < 20)){
 			p2.p2Left();
 		}
-		if (difference>0&&!(Game.player2[6].getX() + 1 > 252)){
+		else if (difference>0&&!(Game.player2[6].getX() + 1 > 252)){
 			p2.p2Right();
 		}
-	}
-	public static void resetAI() {
 		yCoord=BallMovement.yC;
 	}
-
 }
