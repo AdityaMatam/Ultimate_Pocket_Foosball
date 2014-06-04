@@ -43,7 +43,7 @@ public class Game implements ActionListener, KeyListener
 		toMenu.setFont(menuFont);
 		toMenu.setBounds(183, 54, 80, 30);
 		toMenu.addActionListener(this);
-		
+				
 		// Instructions
 		insRightTop = new JLabel(new ImageIcon("resources/insTopRight.png"));
 		insLeftTop = new JLabel(new ImageIcon("resources/insTopLeft.png"));
@@ -226,7 +226,7 @@ public class Game implements ActionListener, KeyListener
 	public static void resetAll()
 	{
 		bMove.resetBall(true);
-		bMove.resetPlayers();
+		move.resetPlayers();
 	}
 	
 	public void remove()

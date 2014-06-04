@@ -87,5 +87,16 @@ public class PlayerMovement
 			p2Right();
 		}
 	}
+	public void resetPlayers()
+    {
+            PlayerMovement move = new PlayerMovement();
+            move.x1 = move.xStart;
+            move.x2 = move.xStart;
+            for (int i = 0; i != 10; i++)
+            {
+                    move.player1Position(i);
+                    move.player2Position(i);
+            }       
+    }
 
 }
