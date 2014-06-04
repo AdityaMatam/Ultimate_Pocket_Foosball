@@ -309,7 +309,7 @@ public class Game implements ActionListener, KeyListener
 		goal.setVisible(true);
 		UPF.pause(2000);
 		goal.setVisible(false);
-		if (scoreCounter1 == 2 | scoreCounter2 == 2)////////////////////////////////////////////////////////////////// score here
+		if (scoreCounter1 == 5 | scoreCounter2 == 5)////////////////////////////////////////////////////////////////// score here
 			win (colour);
 		else
 			BallMovement.resetBall(false);
