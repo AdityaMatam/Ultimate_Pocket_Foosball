@@ -171,7 +171,7 @@ static boolean difficulty;
 		new Game();
 		RunGame.runGame=true;
 		MovePlayers.movePlayers=true;
-		System.out.println(gameMode);
+		//BallMovement.resetBall();
 		if (!gameMode){
 			runAI=true;
 			new Thread (new RunAI()).start();

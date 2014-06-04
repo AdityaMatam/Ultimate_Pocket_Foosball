@@ -175,6 +175,8 @@ public class Game implements ActionListener, KeyListener
 		RunAI.killAI();
 		RunGame.killGame();
 		MovePlayers.stopPlayers();
+		Game.scoreCounter1=0;
+		Game.scoreCounter2=0;
 		new Menu();
 		}
 	}

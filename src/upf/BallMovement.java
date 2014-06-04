@@ -280,9 +280,9 @@ public void detectCollision(Rectangle2D.Double[] n1, Rectangle2D.Double[] n2)
                     }
                     Game.countdown.setVisible(false);
                     Game.ball.setVisible(true);
-
+                    
                     // ////////////////////////////////////////////////////////////////////////////////////
-                    xV = 0;
+            } xV = 0;
                     yV = 0;
                     while (xV == 0)
                     {
@@ -295,7 +295,6 @@ public void detectCollision(Rectangle2D.Double[] n1, Rectangle2D.Double[] n2)
                                     yV = -(8 - Math.abs(xV));
                             }
                     }
-            }
             xC = 140;
             yC = 266;
     }
