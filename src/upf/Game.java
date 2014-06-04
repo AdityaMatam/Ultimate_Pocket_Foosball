@@ -5,38 +5,45 @@ import java.awt.*;
 
 import javax.swing.*;
 
+import upf.Menu.RunAI;
+
 import java.awt.event.*;
 
 public class Game implements ActionListener, KeyListener
 {
 	// Declarations
-	Font adFont = new Font("Arial", Font.PLAIN, 20);
+	Font menuFont = new Font("Dotum", Font.PLAIN, 20);///////////////////////////////
 	Font score = new Font("Haettenschweiler", Font.PLAIN, 24);
 	Font goalFont = new Font("Forte", Font.PLAIN, 90);
 	static Font countdownFont1 = new Font("Hobo STD", Font.PLAIN, 72);
 	static Font countdownFont2 = new Font("Hobo STD", Font.PLAIN, 50);
-	static JButton play1, play2, ad;
-	static JLabel ball, goal, countdown, scoreRed, scoreBlue, insRightTop,
-			insLeftTop, insRightBot, insLeftBot;
-	static JLabel[] player1 = new JLabel[10], player2 = new JLabel[10];
+	static JButton  toMenu;
+	static JLabel sBackground, ball, goal, countdown, scoreRed, scoreBlue, insRightTop,
+			insLeftTop, insRightBot, insLeftBot,scoreDash = new JLabel("-");;
+	static JLabel[] player1 = new JLabel[10], player2 = new JLabel[10],bar = new JLabel[8];
 	// blueKick = new JLabel[10], redKick = new JLabel[10];
 	static int scoreCounter1 = 0, scoreCounter2 = 0;
 	static PlayerMovement move = new PlayerMovement();
 	AI bob = new AI();
 	static boolean[] keys = new boolean[4];
 	final static BallMovement bMove = new BallMovement();
+	final static JLabel net1 = new JLabel(new ImageIcon("resources/goalnett.png"));
+	final static JLabel net2 = new JLabel(new ImageIcon("resources/goalnetb.png"));
 	
 	public Game() {// Constructor (Output)
 		UPF.f.addKeyListener(this);
 		UPF.f.requestFocusInWindow();
 
 		// Background
-		JLabel sBackground = new JLabel(new ImageIcon("resources/gameBKG.jpg"));
+		sBackground = new JLabel(new ImageIcon("resources/gameBKG.jpg"));
 		sBackground.setBounds(14, 46, 253, 445);
 		
-		// Return
+		//Return to menu//////////////////////////////////////////////////////////
+		toMenu = new JButton ("Menu");
+		toMenu.setFont(menuFont);
+		toMenu.setBounds(183, 54, 80, 30);
+		toMenu.addActionListener(this);
 		
-
 		// Instructions
 		insRightTop = new JLabel(new ImageIcon("resources/insTopRight.png"));
 		insLeftTop = new JLabel(new ImageIcon("resources/insTopLeft.png"));
@@ -54,19 +61,16 @@ public class Game implements ActionListener, KeyListener
 		insLeftBot.setVisible(false);
 
 		// Net
-		final JLabel net1 = new JLabel(new ImageIcon("resources/goalnett.png"));
 		net1.setBounds(100, 78, 82, 36);
-		final JLabel net2 = new JLabel(new ImageIcon("resources/goalnetb.png"));
 		net2.setBounds(100, 424, 82, 36);
 
 		// Bars
-		ImageIcon bari = new ImageIcon("resources/bar.png");
-		JLabel[] bar = new JLabel[8];
+		ImageIcon barI = new ImageIcon("resources/bar.png");
 		for (int i = 0; i < 4; i++) // //////////////////////////////Reiterates
 									// 4 times instead of 8
 		{
-			bar[i * 2] = new JLabel(bari);
-			bar[i * 2 + 1] = new JLabel(bari); // ///////////////////////////////
+			bar[i * 2] = new JLabel(barI);
+			bar[i * 2 + 1] = new JLabel(barI); // ///////////////////////////////
 												// added in for compatibility
 			bar[i * 2].setBounds(14, move.y1[i] + 2, 254, 5); // //////////////////////////
 																// y1
@@ -109,7 +113,6 @@ public class Game implements ActionListener, KeyListener
 		ball.setVisible(false);
 
 		// Score
-		JLabel scoreDash = new JLabel("-");
 		scoreDash.setForeground(Color.yellow);
 		scoreDash.setFont(score);
 		scoreBlue = new JLabel("0");
@@ -146,34 +149,13 @@ public class Game implements ActionListener, KeyListener
 		UPF.lp.add(scoreDash, new Integer(6));
 		UPF.lp.add(scoreBlue, new Integer(6));
 		UPF.lp.add(scoreRed, new Integer(6));
+		UPF.lp.add(toMenu, new Integer(6));///////////////////////////
 
 		UPF.f.repaint();
 
 		resetAll();
-		new Thread(new Runnable() {
-			@Override
-			public void run()
-			{
-				instructions();
-				bMove.resetBall(false);
-				
-				while (true)
-				{
-					UPF.pause(43);
-					bMove.updateBallPosition(ball, player1, player2, net1, net2);
-				}
-			}
-		}).start();
-		new Thread(new Runnable() {
-			public void run()
-			{
-				while (true)
-				{
-					UPF.pause(10);
-					move.move();
-				}
-			}
-		}).start();
+		new Thread(new RunGame()).start();
+		new Thread(new MovePlayers()).start();
 	}
 
 	// Input
@@ -187,6 +169,13 @@ public class Game implements ActionListener, KeyListener
 			} catch (Exception a)
 			{
 			}
+		}
+		if (e.getSource() == toMenu)////////////////////////////////////////////
+		{remove();
+		RunAI.killAI();
+		RunGame.killGame();
+		MovePlayers.stopPlayers();
+		new Menu();
 		}
 	}
 
@@ -237,6 +226,33 @@ public class Game implements ActionListener, KeyListener
 		bMove.resetBall(true);
 		bMove.resetPlayers();
 	}
+	
+	public void remove()
+	{
+		UPF.lp.remove(sBackground);
+		UPF.lp.remove(net1);
+		UPF.lp.remove(net2);
+		for (int i = 0; i != 8; i++)
+			UPF.lp.remove(bar[i]);
+		for (int i = 0; i != 10; i++)
+		{
+			UPF.lp.remove(player1[i]);
+			UPF.lp.remove(player2[i]);
+		}
+		UPF.lp.remove(ball);
+		UPF.lp.remove(goal);
+		UPF.lp.remove(insRightTop);
+		UPF.lp.remove(insLeftTop);
+		UPF.lp.remove(insRightBot);
+		UPF.lp.remove(insLeftBot);
+		UPF.lp.remove(countdown);
+		UPF.lp.remove(scoreDash);
+		UPF.lp.remove(scoreBlue);
+		UPF.lp.remove(scoreRed);
+		UPF.lp.remove(toMenu);
+		UPF.f.repaint();
+		UPF.ad.removeActionListener(this);
+	}
 
 	public static void instructions()
 	{
@@ -255,5 +271,36 @@ public class Game implements ActionListener, KeyListener
 		}
 		insRightBot.setVisible(false);
 		insLeftBot.setVisible(false);
+	}
+	public static class MovePlayers implements Runnable{
+		static boolean movePlayers = true;
+		public void run()
+		{
+			while (movePlayers)
+			{
+				UPF.pause(10);
+				move.move();
+			}
+		}
+		public static void stopPlayers(){
+			movePlayers = false;
+		}
+	}
+	public static class RunGame implements Runnable{
+		static boolean runGame = true;
+		public void run()
+		{
+			instructions();
+			bMove.resetBall(false);
+			
+			while (runGame)
+			{
+				UPF.pause(43);
+				bMove.updateBallPosition(ball, player1, player2, net1, net2);
+			}
+		}
+		public static void killGame(){
+			runGame=false;
+		}
 	}
 }

@@ -69,7 +69,6 @@ public void detectCollision(Rectangle2D.Double[] n1, Rectangle2D.Double[] n2)
         {
                 // goal p1
                 Game.scoreCounter1 += 1;
-                System.out.println(Game.scoreCounter1);
                 // ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 // red team
                 goal(true, Game.scoreCounter1);
@@ -89,7 +88,6 @@ public void detectCollision(Rectangle2D.Double[] n1, Rectangle2D.Double[] n2)
         {
                 // goal p2
                 Game.scoreCounter2 += 1;
-                System.out.println(Game.scoreCounter2);
                 // //////////////////////////////////////////////////////////////////////////
                 // //////////////////////////////////////////////////////////////////////////////blue
                 // team
@@ -110,7 +108,6 @@ public void detectCollision(Rectangle2D.Double[] n1, Rectangle2D.Double[] n2)
                         // Center-most rectangle for player 1
                         if (yV >= 0)
                                 yV = -yV;
-                        System.out.println("X: " + xV + " Y: " + yV);
                 } else if (b.intersects(boundingRectp1[0]))
                 {
                         // Outer-left rectangle for player 1
@@ -140,7 +137,6 @@ public void detectCollision(Rectangle2D.Double[] n1, Rectangle2D.Double[] n2)
                                 yV = -yV;
                         }
 
-                        System.out.println("X: " + xV + " Y: " + yV);
 
                 } else if (b.intersects(boundingRectp1[1]))
                 {
@@ -172,14 +168,11 @@ public void detectCollision(Rectangle2D.Double[] n1, Rectangle2D.Double[] n2)
 
                         }
 
-                        System.out.println("X: " + xV + " Y: " + yV);
-
                 } else if (b.intersects(boundingRectp2[2]))
                 {
                         // Center-most rectangle for player 2
                         if (yV <= 0)
                                 yV = -yV;
-                        System.out.println("X: " + xV + " Y: " + yV);
 
                 } else if (b.intersects(boundingRectp2[0]))
                 {
@@ -212,7 +205,6 @@ public void detectCollision(Rectangle2D.Double[] n1, Rectangle2D.Double[] n2)
 
                         }
 
-                        System.out.println("X: " + xV + " Y: " + yV);
 
                 }
 
@@ -243,7 +235,6 @@ public void detectCollision(Rectangle2D.Double[] n1, Rectangle2D.Double[] n2)
                         if (yV <= 0)
                         {
                                 yV = -yV;
-                                System.out.println("X: " + xV + " Y: " + yV);
                         }
                 }
         }

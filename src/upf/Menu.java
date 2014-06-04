@@ -3,6 +3,10 @@ package upf;
 //Imports
 import java.awt.*;
 import javax.swing.*;
+
+import upf.Game.MovePlayers;
+import upf.Game.RunGame;
+
 import java.awt.event.*;
 import java.net.URL;
 
@@ -11,12 +15,13 @@ public class Menu implements ActionListener
 	// Declarations
 	Font title = new Font("Berlin Sans FB Demi", Font.PLAIN, 42);
 	Font button = new Font("Eras Demi ITC", Font.PLAIN, 25);// 25
-	AI bob = new AI();
+	static AI bob = new AI();
 	static JLabel sBackground;
 	static JLabel title1, title2, title3, title1Shade, title2Shade, title3Shade;
 	static JButton play1, play2, easy, hard;
+	static volatile boolean runAI = true;
 	static boolean gameMode; // true = 2 player , false = single player
-boolean difficulty;
+static boolean difficulty;
 
 	public Menu() {// Constructor (Output)
 		
@@ -164,19 +169,28 @@ boolean difficulty;
 	{
 		remove();
 		new Game();
-		if (!gameMode)
-			new Thread(new Runnable() {
-				public void run()
-				{
-					while (true)
-					{
-						UPF.pause(10);
-						if (difficulty == true)
-							bob.moveRandom(Game.player2);
-						else
-							bob.move(Game.player2);
-					}
-				}
-			}).start();
+		RunGame.runGame=true;
+		MovePlayers.movePlayers=true;
+		System.out.println(gameMode);
+		if (!gameMode){
+			runAI=true;
+			new Thread (new RunAI()).start();
+		}
+	}
+	public static class RunAI implements Runnable{
+		public void run()
+		{
+			while (runAI)
+			{
+				UPF.pause(10);
+				if (difficulty == true)
+					bob.moveRandom(Game.player2);
+				else
+					bob.move(Game.player2);
+			}
+		}
+		public static void killAI(){
+			runAI = false;
+		}
 	}
 }
