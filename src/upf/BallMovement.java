@@ -3,11 +3,11 @@ package upf;
 import java.awt.Color;
 import java.awt.geom.*;
 
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-public class BallMovement
-{
+import upf.Menu.RunAI;
+
+public class BallMovement {
 	static int xC = 140, yC = 266, yV = 0, xV = 0;
 	boolean test = true;
 	Ellipse2D.Double b;
@@ -15,15 +15,13 @@ public class BallMovement
 	Ellipse2D.Double[] p2 = new Ellipse2D.Double[10];
 
 	public void updateBallPosition(JLabel ball, JLabel[] player1,
-			JLabel[] player2, JLabel net1, JLabel net2)
-	{
+			JLabel[] player2, JLabel net1, JLabel net2) {
 		xC += xV;
 		yC += yV;
 		b = new Ellipse2D.Double(xC, yC, 7, 7);
 		Rectangle2D.Double[] n1 = createNet(net1);
 		Rectangle2D.Double[] n2 = createNet(net2);
-		for (int x = 0; x < 10; x++)
-		{
+		for (int x = 0; x < 10; x++) {
 			p1[x] = new Ellipse2D.Double(player1[x].getX(), player1[x].getY(),
 					player1[x].getWidth(), player1[x].getHeight());
 			p2[x] = new Ellipse2D.Double(player2[x].getX(), player2[x].getY(),
@@ -33,8 +31,7 @@ public class BallMovement
 		ball.setLocation(xC, yC);
 	}
 
-	public Rectangle2D.Double[] createNet(JLabel net)
-	{
+	public Rectangle2D.Double[] createNet(JLabel net) {
 		Rectangle2D.Double[] output = {
 				new Rectangle2D.Double(net.getX() - 1, net.getY(), 1,
 						net.getHeight()),
@@ -45,32 +42,24 @@ public class BallMovement
 		return output;
 	}
 
-	public void detectCollision(Rectangle2D.Double[] n1, Rectangle2D.Double[] n2)
-	{
+	public void detectCollision(Rectangle2D.Double[] n1, Rectangle2D.Double[] n2) {
 
-		if (xC < 20 && xV < 0)
-		{
+		if (xC < 20 && xV < 0) {
 			xV = -xV;
-		} else if (xC > 252 && xV > 0)
-		{
+		} else if (xC > 252 && xV > 0) {
 			xV = -xV;
-		} else if (yC < 89 && yV < 0)
-		{
+		} else if (yC < 89 && yV < 0) {
 			yV = -yV;
-		} else if (yC > 440 && yV > 0)
-		{
+		} else if (yC > 440 && yV > 0) {
 			yV = -yV;
 		}
-		if (b.intersects(n1[0]))
-		{
+		if (b.intersects(n1[0])) {
 			// left net rectangle
 			xV = -xV;
-		} else if (b.intersects(n1[1]))
-		{
+		} else if (b.intersects(n1[1])) {
 			// right net rectangle
 			xV = -xV;
-		} else if (b.intersects(n1[2]))
-		{
+		} else if (b.intersects(n1[2])) {
 			// goal p1
 			Game.scoreCounter1 += 1;
 			// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -80,16 +69,13 @@ public class BallMovement
 			// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			// resetBall(false);
 		}
-		if (b.intersects(n2[0]))
-		{
+		if (b.intersects(n2[0])) {
 			// left net rectangle
 			xV = -xV;
-		} else if (b.intersects(n2[1]))
-		{
+		} else if (b.intersects(n2[1])) {
 			// right net rectangle
 			xV = -xV;
-		} else if (b.intersects(n2[2]))
-		{
+		} else if (b.intersects(n2[2])) {
 			// goal p2
 			Game.scoreCounter2 += 1;
 			// //////////////////////////////////////////////////////////////////////////
@@ -100,109 +86,85 @@ public class BallMovement
 			// /////////////////////////////////////////////////////////////////////////////
 			// resetBall(false);
 		}
-		for (int x = 0; x < 10; x++)
-		{
+		for (int x = 0; x < 10; x++) {
 			Rectangle2D.Double[] boundingRectp1 = new Rectangle2D.Double[5];
 			boundingRectp1 = createBoundingRect(p1[x]);
 			Rectangle2D.Double[] boundingRectp2 = new Rectangle2D.Double[5];
 			boundingRectp2 = createBoundingRect(p2[x]);
 			int test = 1;
-			if (b.intersects(boundingRectp1[2]))
-			{
+			if (b.intersects(boundingRectp1[2])) {
 				// Center-most rectangle for player 1
 				if (yV >= 0)
 					yV = -yV;
-			} else if (b.intersects(boundingRectp1[0]))
-			{
+			} else if (b.intersects(boundingRectp1[0])) {
 				// Outer-left rectangle for player 1
-				if (xV > 1 && (yV >= 1 && yV < 8))
-				{
+				if (xV > 1 && (yV >= 1 && yV < 8)) {
 					xV -= test;
 					yV += test;
-				} else if (xV <= -1 && (yV > 1 && yV <= 8))
-				{
+				} else if (xV <= -1 && (yV > 1 && yV <= 8)) {
 					xV -= test;
 					yV -= test;
-				} else if (yV <= 0)
-				{
-					if (xV < -1)
-					{
+				} else if (yV <= 0) {
+					if (xV < -1) {
 						xV += test;
 						yV -= test;
 					}
-					if (xV > 1)
-					{
+					if (xV > 1) {
 						xV -= test;
 						yV -= test;
 					}
 				}
-				if (yV >= 0)
-				{
+				if (yV >= 0) {
 					yV = -yV;
 				}
 
-			} else if (b.intersects(boundingRectp1[1]))
-			{
+			} else if (b.intersects(boundingRectp1[1])) {
 				// Outer-right rectangle for player 1
-				if (xV < -1 && (yV >= 1 && yV < 8))
-				{
+				if (xV < -1 && (yV >= 1 && yV < 8)) {
 					xV += test;
 					yV += test;
-				} else if (xV >= 1 && (yV > 1 && yV <= 8))
-				{
+				} else if (xV >= 1 && (yV > 1 && yV <= 8)) {
 					xV += test;
 					yV -= test;
-				} else if (yV <= 0)
-				{
-					if (xV < -1)
-					{
+				} else if (yV <= 0) {
+					if (xV < -1) {
 						xV += test;
 						yV -= test;
 					}
-					if (xV > 1)
-					{
+					if (xV > 1) {
 						xV -= test;
 						yV -= test;
 					}
 				}
-				if (yV >= 0)
-				{
+				if (yV >= 0) {
 					yV = -yV;
 
 				}
 
-			} else if (b.intersects(boundingRectp2[2]))
-			{
+			} else if (b.intersects(boundingRectp2[2])) {
 				// Center-most rectangle for player 2
 				if (yV <= 0)
 					yV = -yV;
 
-			} else if (b.intersects(boundingRectp2[0]))
-			{
+			} else if (b.intersects(boundingRectp2[0])) {
 				// Outer-left rectangle for player 2
-				if (xV > 1 && (yV < -1 && yV >= -8))
-				{
+				if (xV > 1 && (yV < -1 && yV >= -8)) {
 					xV -= test;
 					yV -= test;
-				} else if (xV <= -1 && (yV <= -1 && yV > -8))
-				{
+				} else if (xV <= -1 && (yV <= -1 && yV > -8)) {
 					xV -= test;
 					yV += test;
-				} else if (yV >= 0)
-				{
-					if (xV < -1)
-					{
+				} else if (yV >= 0) {
+					if (xV < -1) {
 						xV += test;
 						yV += test;
 					}
-					if (xV > 1)
-					{
+					if (xV > 1) {
 						xV -= test;
 						yV += test;
 					}
 				}
-				if (yV <= 0)
-				{
+				if (yV <= 0) {
 
 					yV = -yV;
 
@@ -210,40 +172,32 @@ public class BallMovement
 
 			}
 
-			else if (b.intersects(boundingRectp2[1]))
-			{
+			else if (b.intersects(boundingRectp2[1])) {
 				// Outer-right rectangle for player 2
-				if (xV < -1 && (yV <= -1 && yV > -8))
-				{
+				if (xV < -1 && (yV <= -1 && yV > -8)) {
 					xV += test;
 					yV -= test;
-				} else if (xV > 1 && (yV < -1 && yV >= -8))
-				{
+				} else if (xV > 1 && (yV < -1 && yV >= -8)) {
 					xV += test;
 					yV += test;
-				} else if (yV >= 0)
-				{
-					if (xV < -1)
-					{
+				} else if (yV >= 0) {
+					if (xV < -1) {
 						xV += test;
 						yV += test;
 					}
-					if (xV > 1)
-					{
+					if (xV > 1) {
 						xV -= test;
 						yV += test;
 					}
 				}
-				if (yV <= 0)
-				{
+				if (yV <= 0) {
 					yV = -yV;
 				}
 			}
 		}
 	}
 
-	public Rectangle2D.Double[] createBoundingRect(Ellipse2D.Double player)
-	{
+	public Rectangle2D.Double[] createBoundingRect(Ellipse2D.Double player) {
 		Rectangle2D.Double[] rect = new Rectangle2D.Double[3];
 		rect[0] = new Rectangle2D.Double(player.getX(), player.getY(), 3,
 				player.height);
@@ -259,16 +213,12 @@ public class BallMovement
 	 * move.x1 = move.xStart; move.x2 = move.xStart; for (int i = 0; i != 10;
 	 * i++) { move.player1Position(i); move.player2Position(i); } }
 	 */
-	public void resetBall(boolean global)
-	{
+	public void resetBall(boolean global) {
 		// ////////////////////////////////////////////////////////////////////////////////////
 
-		if (!global)
-		{
-			Game.toMenu.setEnabled(false);
+		if (!global) {
 			Game.countdown.setVisible(true);
-			for (int i = 3; i != 0; i--)
-			{
+			for (int i = 3; i != 0; i--) {
 				Game.countdown.setText("" + i);
 				Game.countdown.setFont(Game.countdownFont1);
 				UPF.pause(750);
@@ -283,14 +233,11 @@ public class BallMovement
 		}
 		xV = 0;
 		yV = 0;
-		while (xV == 0)
-		{
+		while (xV == 0) {
 			xV = (int) (Math.random() * 14 - 7);
-			if (Math.random() < 0.5)
-			{
+			if (Math.random() < 0.5) {
 				yV = 8 - Math.abs(xV);
-			} else
-			{
+			} else {
 				yV = -(8 - Math.abs(xV));
 			}
 		}
@@ -340,24 +287,40 @@ public class BallMovement
 	 * { if (!colour) Game.player2[i - 1] = new JLabel(Game.playerR); else
 	 * Game.player1[i - 1] = new JLabel(Game.playerB); if (colour) i -= 2; } }
 	 */
-	public void goal(boolean colour, int score)
+	public void goal(boolean colour, int score) // true = blue // false = red
 	{
 		Game.ball.setVisible(false);
-		if (colour)
-		{
+		if (colour) {
 			Game.scoreBlue.setText("" + score);
 			Game.goal.setForeground(Color.blue);
-		} else
-		{
+		} else {
 			Game.scoreRed.setText("" + score);
 			Game.goal.setForeground(Color.red);
 		}
+		Game.toMenu.setEnabled(false);
 		Game.goal.setVisible(true);
 		UPF.pause(2000);
 		Game.goal.setVisible(false);
-		// resetPlayers();
-		resetBall(false);
+		if (Game.scoreCounter1 == 2 | Game.scoreCounter2 == 2)
+			win (colour);
+		else
+			resetBall(false);
 	}
 
+	public void win(boolean colour) 
+	{
+		RunAI.killAI();
+		if (colour) {
+			Game.win.setForeground(Color.blue);
+			Game.win.setText("BLUE\nWINS");
+		} else {
+			Game.win.setForeground(Color.red);
+			Game.win.setText("RED\nWINS");
+		}
+		Game.toMenu.setEnabled(false);
+		Game.win.setVisible(true);
+		UPF.pause(2000);
+		Game.returnToMenu();
+	}
 	// ///////////////////////////////////////////////////////////////////////////
 }

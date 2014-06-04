@@ -15,10 +15,11 @@ public class Game implements ActionListener, KeyListener
 	Font menuFont = new Font("Dotum", Font.PLAIN, 20);///////////////////////////////
 	Font score = new Font("Haettenschweiler", Font.PLAIN, 24);
 	Font goalFont = new Font("Forte", Font.PLAIN, 90);
+	Font winFont = new Font ("Forte", Font.PLAIN, 80);
 	static Font countdownFont1 = new Font("Hobo STD", Font.PLAIN, 72);
 	static Font countdownFont2 = new Font("Hobo STD", Font.PLAIN, 50);
 	static JButton  toMenu;
-	static JLabel sBackground, ball, goal, countdown, scoreRed, scoreBlue, insRightTop,
+	static JLabel sBackground, ball, goal, win, countdown, scoreRed, scoreBlue, insRightTop,
 			insLeftTop, insRightBot, insLeftBot,scoreDash = new JLabel("-");;
 	static JLabel[] player1 = new JLabel[10], player2 = new JLabel[10],bar = new JLabel[8];
 	// blueKick = new JLabel[10], redKick = new JLabel[10];
@@ -83,7 +84,14 @@ public class Game implements ActionListener, KeyListener
 		goal.setBounds(14, 230, 253, 90);
 		goal.setFont(goalFont);
 		goal.setVisible(false);
-
+		
+		//Win
+		win = new JLabel("", SwingConstants.CENTER);
+		win.setBounds(14, 100, 253, 200);                    
+		win.setFont(winFont);                              
+		win.setVisible(false); 
+		
+		
 		// Start Countdown
 		countdown = new JLabel("", SwingConstants.CENTER);
 		countdown.setBounds(14, 230, 253, 72);
@@ -141,6 +149,7 @@ public class Game implements ActionListener, KeyListener
 		}
 		UPF.lp.add(ball, new Integer(3));
 		UPF.lp.add(goal, new Integer(6));
+		UPF.lp.add(win, new Integer(6));
 		UPF.lp.add(insRightTop, new Integer(6));
 		UPF.lp.add(insLeftTop, new Integer(6));
 		UPF.lp.add(insRightBot, new Integer(6));
@@ -171,13 +180,9 @@ public class Game implements ActionListener, KeyListener
 			}
 		}
 		if (e.getSource() == toMenu)////////////////////////////////////////////
-		{remove();
-		RunAI.killAI();
-		RunGame.killGame();
-		MovePlayers.stopPlayers();
-		Game.scoreCounter1=0;
-		Game.scoreCounter2=0;
-		new Menu();
+		{
+			RunAI.killAI();
+			returnToMenu();
 		}
 	}
 
@@ -228,8 +233,17 @@ public class Game implements ActionListener, KeyListener
 		bMove.resetBall(true);
 		move.resetPlayers();
 	}
+	public static void returnToMenu ()
+	{
+		remove();
+		RunGame.killGame();
+		MovePlayers.stopPlayers();
+		Game.scoreCounter1=0;
+		Game.scoreCounter2=0;
+		new Menu();
+	}
 	
-	public void remove()
+	public static void remove()
 	{
 		UPF.lp.remove(sBackground);
 		UPF.lp.remove(net1);
@@ -243,6 +257,7 @@ public class Game implements ActionListener, KeyListener
 		}
 		UPF.lp.remove(ball);
 		UPF.lp.remove(goal);
+		UPF.lp.remove(win);
 		UPF.lp.remove(insRightTop);
 		UPF.lp.remove(insLeftTop);
 		UPF.lp.remove(insRightBot);
@@ -253,11 +268,11 @@ public class Game implements ActionListener, KeyListener
 		UPF.lp.remove(scoreRed);
 		UPF.lp.remove(toMenu);
 		UPF.f.repaint();
-		UPF.ad.removeActionListener(this);
 	}
 
 	public static void instructions()
 	{
+		toMenu.setEnabled(false);
 		if (Menu.gameMode)
 		{
 			insRightTop.setVisible(true);
