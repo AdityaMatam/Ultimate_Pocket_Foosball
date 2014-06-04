@@ -2,13 +2,13 @@ package upf;
 
 //Imports
 import java.awt.*;
+
 import javax.swing.*;
 
 import upf.Game.MovePlayers;
 import upf.Game.RunGame;
 
 import java.awt.event.*;
-import java.net.URL;
 
 public class Menu implements ActionListener
 {
@@ -17,14 +17,17 @@ public class Menu implements ActionListener
 	Font button = new Font("Eras Demi ITC", Font.PLAIN, 25);// 25
 	static AI bob = new AI();
 	static JLabel sBackground;
-	static JLabel title1, title2, title3, title1Shade, title2Shade, title3Shade;
-	static JButton play1, play2, easy, hard;
+	static JLabel title1, title2, title3, title1Shade, title2Shade,
+			title3Shade;
+	static JButton play1, play2, easy, hard, back, bannerAd;
 	static volatile boolean runAI = true;
 	static boolean gameMode; // true = 2 player , false = single player
-static boolean difficulty;
+	static JInternalFrame advertisement;
+
+	static boolean difficulty;
 
 	public Menu() {// Constructor (Output)
-		
+
 		// Background
 		sBackground = new JLabel(new ImageIcon("resources//menuBKG.jpg"));
 		sBackground.setBounds(14, 46, 253, 445);
@@ -34,33 +37,33 @@ static boolean difficulty;
 		title1.setBounds(14, 75, 253, 42);
 		title1.setFont(title);
 		title1.setForeground(Color.WHITE);
-		
+
 		title1Shade = new JLabel("Ultimate", SwingConstants.CENTER);
 		title1Shade.setBounds(4, 85, 253, 42);
 		title1Shade.setFont(title);
-		title1Shade.setForeground(new Color(0,0,0,150));
+		title1Shade.setForeground(new Color(0, 0, 0, 150));
 
 		// Pocket
 		title2 = new JLabel("Pocket", SwingConstants.CENTER);
 		title2.setBounds(14, 125, 253, 42);
 		title2.setFont(title);
 		title2.setForeground(Color.WHITE);
-		
+
 		title2Shade = new JLabel("Pocket", SwingConstants.CENTER);
 		title2Shade.setBounds(4, 135, 253, 42);
 		title2Shade.setFont(title);
-		title2Shade.setForeground(new Color(0,0,0,150));
+		title2Shade.setForeground(new Color(0, 0, 0, 150));
 
 		// Foosball
 		title3 = new JLabel("Foosball", SwingConstants.CENTER);
 		title3.setBounds(14, 175, 253, 42);
 		title3.setFont(title);
 		title3.setForeground(Color.WHITE);
-		
+
 		title3Shade = new JLabel("Foosball", SwingConstants.CENTER);
 		title3Shade.setBounds(4, 185, 253, 42);
 		title3Shade.setFont(title);
-		title3Shade.setForeground(new Color(0,0,0,150));
+		title3Shade.setForeground(new Color(0, 0, 0, 150));
 
 		// Single Player button
 		play1 = new JButton("SINGLE PLAYER");
@@ -89,6 +92,13 @@ static boolean difficulty;
 		hard.addActionListener(this);
 		hard.setVisible(false);
 
+		// Back
+		back = new JButton("BACK");
+		back.setFont(button);
+		back.setBounds(24, 370, 233, 40);
+		back.addActionListener(this);
+		back.setVisible(false);
+
 		// Ad button
 		UPF.ad.addActionListener(this);
 
@@ -104,6 +114,7 @@ static boolean difficulty;
 		UPF.lp.add(play2, new Integer(2));
 		UPF.lp.add(easy, new Integer(2));
 		UPF.lp.add(hard, new Integer(2));
+		UPF.lp.add(back, new Integer(2));
 
 		UPF.f.repaint();
 	}
@@ -121,6 +132,7 @@ static boolean difficulty;
 		UPF.lp.remove(play2);
 		UPF.lp.remove(easy);
 		UPF.lp.remove(hard);
+		UPF.lp.remove(back);
 		UPF.f.repaint();
 		UPF.ad.removeActionListener(this);
 	}
@@ -136,7 +148,7 @@ static boolean difficulty;
 			play2.setVisible(false);
 			easy.setVisible(true);
 			hard.setVisible(true);
-
+			back.setVisible(true);
 		} else if (e.getSource() == play2)
 		{
 			gameMode = true;
@@ -149,18 +161,19 @@ static boolean difficulty;
 			play();
 		} else if (e.getSource() == hard)
 		{
-			difficulty =false;
+			difficulty = false;
 			play();
+		} else if (e.getSource() == back)
+		{
+			play1.setVisible(true);
+			play2.setVisible(true);
+			easy.setVisible(false);
+			hard.setVisible(false);
+			back.setVisible(false);
 		}
 		if (e.getSource() == UPF.ad)
 		{
-			try
-			{
-				Desktop.getDesktop().browse(
-						new URL("http://heyyeyaaeyaaaeyaeyaa.com/").toURI());
-			} catch (Exception a)
-			{
-			}
+			UPF.link();
 		}
 
 	}
@@ -169,15 +182,37 @@ static boolean difficulty;
 	{
 		remove();
 		new Game();
-		RunGame.runGame=true;
-		MovePlayers.movePlayers=true;
-		//BallMovement.resetBall();
-		if (!gameMode){
-			runAI=true;
-			new Thread (new RunAI()).start();
+		RunGame.runGame = true;
+		MovePlayers.movePlayers = true;
+		// BallMovement.resetBall();
+		if (!gameMode)
+		{
+			runAI = true;
+			new Thread(new RunAI()).start();
 		}
 	}
-	public static class RunAI implements Runnable{
+
+	public static void bannerAd()
+	{
+		advertisement = new JInternalFrame("", false, true, false, false);
+		bannerAd = new JButton("advertisement");
+
+		advertisement.setBounds(14, 46, 253, 445);
+		bannerAd.setBounds(0, 0, 243, 412);// 5,28
+
+		advertisement.setVisible(true);
+
+		advertisement.add(bannerAd);
+		bannerAd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent aActionEvent)
+			{
+				UPF.link();
+			}});
+		UPF.lp.add(advertisement, new Integer(7));
+	}
+
+	public static class RunAI implements Runnable
+	{
 		public void run()
 		{
 			while (runAI)
@@ -189,7 +224,9 @@ static boolean difficulty;
 					bob.move(Game.player2);
 			}
 		}
-		public static void killAI(){
+
+		public static void killAI()
+		{
 			runAI = false;
 		}
 	}

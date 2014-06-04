@@ -1,11 +1,8 @@
 package upf;
 
-import java.awt.Color;
 import java.awt.geom.*;
 
 import javax.swing.JLabel;
-
-import upf.Menu.RunAI;
 
 public class BallMovement {
 	static int xC = 140, yC = 266, yV = 0, xV = 0;
@@ -64,7 +61,7 @@ public class BallMovement {
 			Game.scoreCounter1 += 1;
 			// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			// red team
-			goal(true, Game.scoreCounter1);
+			Game.goal(true, Game.scoreCounter1);
 
 			// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			// resetBall(false);
@@ -81,7 +78,7 @@ public class BallMovement {
 			// //////////////////////////////////////////////////////////////////////////
 			// //////////////////////////////////////////////////////////////////////////////blue
 			// team
-			goal(false, Game.scoreCounter2);
+			Game.goal(false, Game.scoreCounter2);
 			// ///////////////////////////////////////////////////////////////////////////
 			// /////////////////////////////////////////////////////////////////////////////
 			// resetBall(false);
@@ -213,7 +210,7 @@ public class BallMovement {
 	 * move.x1 = move.xStart; move.x2 = move.xStart; for (int i = 0; i != 10;
 	 * i++) { move.player1Position(i); move.player2Position(i); } }
 	 */
-	public void resetBall(boolean global) {
+	public static void resetBall(boolean global) {
 		// ////////////////////////////////////////////////////////////////////////////////////
 
 		if (!global) {
@@ -286,7 +283,7 @@ public class BallMovement {
 	 * if (colour) i -= 2; } UPF.pause(150); for (int i = start; i != end; i++)
 	 * { if (!colour) Game.player2[i - 1] = new JLabel(Game.playerR); else
 	 * Game.player1[i - 1] = new JLabel(Game.playerB); if (colour) i -= 2; } }
-	 */
+	 *
 	public void goal(boolean colour, int score) // true = blue // false = red
 	{
 		Game.ball.setVisible(false);
@@ -312,15 +309,16 @@ public class BallMovement {
 		RunAI.killAI();
 		if (colour) {
 			Game.win.setForeground(Color.blue);
-			Game.win.setText("BLUE\nWINS");
+			Game.win.setText("<html>BLUE<br>WINS</html>");
 		} else {
 			Game.win.setForeground(Color.red);
-			Game.win.setText("RED\nWINS");
+			Game.win.setText("<html> RED<br>WINS</html>");
 		}
 		Game.toMenu.setEnabled(false);
 		Game.win.setVisible(true);
 		UPF.pause(2000);
 		Game.returnToMenu();
 	}
+	*/
 	// ///////////////////////////////////////////////////////////////////////////
 }

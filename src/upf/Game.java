@@ -30,6 +30,7 @@ public class Game implements ActionListener, KeyListener
 	final static BallMovement bMove = new BallMovement();
 	final static JLabel net1 = new JLabel(new ImageIcon("resources/goalnett.png"));
 	final static JLabel net2 = new JLabel(new ImageIcon("resources/goalnetb.png"));
+
 	
 	public Game() {// Constructor (Output)
 		UPF.f.addKeyListener(this);
@@ -87,7 +88,7 @@ public class Game implements ActionListener, KeyListener
 		
 		//Win
 		win = new JLabel("", SwingConstants.CENTER);
-		win.setBounds(14, 100, 253, 200);                    
+		win.setBounds(14, 150, 253, 200);                    
 		win.setFont(winFont);                              
 		win.setVisible(false); 
 		
@@ -230,7 +231,7 @@ public class Game implements ActionListener, KeyListener
 
 	public static void resetAll()
 	{
-		bMove.resetBall(true);
+		BallMovement.resetBall(true);
 		move.resetPlayers();
 	}
 	public static void returnToMenu ()
@@ -238,9 +239,11 @@ public class Game implements ActionListener, KeyListener
 		remove();
 		RunGame.killGame();
 		MovePlayers.stopPlayers();
-		Game.scoreCounter1=0;
-		Game.scoreCounter2=0;
+		scoreCounter1=0;
+		scoreCounter2=0;
+		Menu.bannerAd();
 		new Menu();
+		
 	}
 	
 	public static void remove()
@@ -289,6 +292,45 @@ public class Game implements ActionListener, KeyListener
 		insRightBot.setVisible(false);
 		insLeftBot.setVisible(false);
 	}
+	
+
+	
+	public static void goal(boolean colour, int score) // true = blue // false = red
+	{
+		ball.setVisible(false);
+		if (colour) {
+			scoreBlue.setText("" + score);
+			goal.setForeground(Color.blue);
+		} else {
+			scoreRed.setText("" + score);
+			goal.setForeground(Color.red);
+		}
+		toMenu.setEnabled(false);
+		goal.setVisible(true);
+		UPF.pause(2000);
+		goal.setVisible(false);
+		if (scoreCounter1 == 2 | scoreCounter2 == 2)////////////////////////////////////////////////////////////////// score here
+			win (colour);
+		else
+			BallMovement.resetBall(false);
+	}
+
+	public static void win(boolean colour) 
+	{
+		RunAI.killAI();
+		if (colour) {
+			win.setForeground(Color.blue);
+			win.setText("<html>BLUE<br>WINS</html>");
+		} else {
+			win.setForeground(Color.red);
+			win.setText("<html>RED<br>WINS</html>");
+		}
+		toMenu.setEnabled(false);
+		win.setVisible(true);
+		UPF.pause(2000);
+		returnToMenu();
+	}
+	
 	public static class MovePlayers implements Runnable{
 		static boolean movePlayers = true;
 		public void run()
@@ -308,7 +350,7 @@ public class Game implements ActionListener, KeyListener
 		public void run()
 		{
 			instructions();
-			bMove.resetBall(false);
+			BallMovement.resetBall(false);
 			
 			while (runGame)
 			{
@@ -319,5 +361,6 @@ public class Game implements ActionListener, KeyListener
 		public static void killGame(){
 			runGame=false;
 		}
+			
 	}
 }

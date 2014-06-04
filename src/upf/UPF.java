@@ -1,6 +1,8 @@
 package upf;
 
+import java.awt.Desktop;
 import java.awt.Font;
+import java.net.URL;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -53,6 +55,17 @@ public class UPF
 		{
 			Thread.sleep(time);
 		} catch (InterruptedException e)
+		{
+		}
+	}
+	
+	public static void link()
+	{
+		try
+		{
+			Desktop.getDesktop().browse(
+					new URL("http://www.cbc.ca/dragonsden/").toURI());
+		} catch (Exception a)
 		{
 		}
 	}
