@@ -7,7 +7,6 @@ public class PlayerMovement
 	int[] x2 = { 80, 136, 188, 57, 110, 159, 210, 108, 163, 136 };
 	int[] y1 = { 195, 291, 370, 402 };
 	int[] y2 = { 125, 155, 235, 330 };
-
 	public void player1Position(int i)
 	{
 		if (i < 3)
@@ -19,7 +18,6 @@ public class PlayerMovement
 		else
 			Game.player1[i].setLocation(x1[i], y1[3]);
 	}
-
 	public void player2Position(int i)
 	{
 		if (i < 3)
@@ -31,7 +29,6 @@ public class PlayerMovement
 		else
 			Game.player2[i].setLocation(x2[i], y2[0]);
 	}
-
 	public void p1Left()
 	{
 		for (int i = 0; i != 10; i++)
@@ -40,7 +37,6 @@ public class PlayerMovement
 			player1Position(i);
 		}
 	}
-
 	public void p1Right()
 	{
 		for (int i = 0; i != 10; i++)
@@ -49,7 +45,6 @@ public class PlayerMovement
 			player1Position(i);
 		}
 	}
-
 	public void p2Left()
 	{
 		for (int i = 0; i != 10; i++)
@@ -58,7 +53,6 @@ public class PlayerMovement
 			player2Position(i);
 		}
 	}
-
 	public void p2Right()
 	{
 		for (int i = 0; i != 10; i++)
@@ -67,7 +61,6 @@ public class PlayerMovement
 			player2Position(i);
 		}
 	}
-
 	public void move()
 	{
 		if (Game.keys[0] && x1[3] > 22)
@@ -98,5 +91,4 @@ public class PlayerMovement
                     move.player2Position(i);
             }       
     }
-
 }

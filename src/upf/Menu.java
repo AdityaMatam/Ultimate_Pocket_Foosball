@@ -221,7 +221,7 @@ public class Menu implements ActionListener
 				if (difficulty == true)
 					bob.moveRandom(Game.player2);
 				else
-					bob.move(Game.player2);
+					bob.moveSmart(Game.player2);
 			}
 		}
 

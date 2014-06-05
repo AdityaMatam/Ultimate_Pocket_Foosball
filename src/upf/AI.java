@@ -8,7 +8,10 @@ public class AI {
 	int row, tempDiff, diff;
 	int testDiff = Integer.MAX_VALUE;
 	static boolean test = false;
-
+/**
+ * Randomly moves player 2 up to 13 times to the left or right
+ * @param player2 The JLabel array that needs to be passed as a parameter to prevent the players from moving out of bounds
+ */
 	public void moveRandom(JLabel[] player2) {
 
 		// makes the "AI" move in a random direction
@@ -39,7 +42,11 @@ public class AI {
 		}
 
 	}
-	public void move(JLabel [] player2){
+	/**
+	 * Moves the AI to block the ball. Designed so that it does not block all the balls, and is thus beatable
+	 * @param player2 The JLabel array that is required for determining which direction to move the AI
+	 */
+	public void moveSmart(JLabel [] player2){
 		yCoord = BallMovement.yC;
 			outerloop:
 			while (true){
@@ -87,7 +94,10 @@ public class AI {
 			determineDirection (diff);
 		}
 	}
-
+	/**
+	 * Determines whether to move left or right
+	 * @param difference if this is negative, the player is moved to the left, if it positive, the player is moved to the right
+	 */
 	public void determineDirection(int difference){
 		if (difference<0&&!(Game.player2[3].getX() - 1 < 20)){
 			p2.p2Left();

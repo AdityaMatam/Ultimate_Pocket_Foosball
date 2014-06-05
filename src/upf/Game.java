@@ -9,29 +9,31 @@ import upf.Menu.RunAI;
 
 import java.awt.event.*;
 
-public class Game implements ActionListener, KeyListener
-{
+public class Game implements ActionListener, KeyListener {
 	// Declarations
-	Font menuFont = new Font("Dotum", Font.PLAIN, 20);///////////////////////////////
+	Font menuFont = new Font("Dotum", Font.PLAIN, 20);// /////////////////////////////
 	Font score = new Font("Haettenschweiler", Font.PLAIN, 24);
 	Font goalFont = new Font("Forte", Font.PLAIN, 90);
-	Font winFont = new Font ("Forte", Font.PLAIN, 80);
+	Font winFont = new Font("Forte", Font.PLAIN, 80);
 	static Font countdownFont1 = new Font("Hobo STD", Font.PLAIN, 72);
 	static Font countdownFont2 = new Font("Hobo STD", Font.PLAIN, 50);
-	static JButton  toMenu;
-	static JLabel sBackground, ball, goal, win, countdown, scoreRed, scoreBlue, insRightTop,
-			insLeftTop, insRightBot, insLeftBot,scoreDash = new JLabel("-");;
-	static JLabel[] player1 = new JLabel[10], player2 = new JLabel[10],bar = new JLabel[8];
+	static JButton toMenu;
+	static JLabel sBackground, ball, goal, win, countdown, scoreRed, scoreBlue,
+			insRightTop, insLeftTop, insRightBot, insLeftBot,
+			scoreDash = new JLabel("-");;
+	static JLabel[] player1 = new JLabel[10], player2 = new JLabel[10],
+			bar = new JLabel[8];
 	// blueKick = new JLabel[10], redKick = new JLabel[10];
 	static int scoreCounter1 = 0, scoreCounter2 = 0;
 	static PlayerMovement move = new PlayerMovement();
 	AI bob = new AI();
 	static boolean[] keys = new boolean[4];
 	final static BallMovement bMove = new BallMovement();
-	final static JLabel net1 = new JLabel(new ImageIcon("resources/goalnett.png"));
-	final static JLabel net2 = new JLabel(new ImageIcon("resources/goalnetb.png"));
+	final static JLabel net1 = new JLabel(new ImageIcon(
+			"resources/goalnett.png"));
+	final static JLabel net2 = new JLabel(new ImageIcon(
+			"resources/goalnetb.png"));
 
-	
 	public Game() {// Constructor (Output)
 		UPF.f.addKeyListener(this);
 		UPF.f.requestFocusInWindow();
@@ -39,24 +41,25 @@ public class Game implements ActionListener, KeyListener
 		// Background
 		sBackground = new JLabel(new ImageIcon("resources/gameBKG.jpg"));
 		sBackground.setBounds(14, 46, 253, 445);
-		
-		//Return to menu//////////////////////////////////////////////////////////
-		toMenu = new JButton ("Menu");
+
+		// Return to
+		// menu//////////////////////////////////////////////////////////
+		toMenu = new JButton("Menu");
 		toMenu.setFont(menuFont);
 		toMenu.setBounds(183, 54, 80, 30);
 		toMenu.addActionListener(this);
-				
+
 		// Instructions
 		insRightTop = new JLabel(new ImageIcon("resources/insTopRight.png"));
 		insLeftTop = new JLabel(new ImageIcon("resources/insTopLeft.png"));
 		insRightBot = new JLabel(new ImageIcon("resources/insBotRight.png"));
 		insLeftBot = new JLabel(new ImageIcon("resources/insBotLeft.png"));
-		
+
 		insRightTop.setBounds(143, 92, 120, 176);
 		insLeftTop.setBounds(21, 92, 120, 176);
 		insRightBot.setBounds(143, 271, 120, 176);
 		insLeftBot.setBounds(21, 271, 120, 176);
-		
+
 		insRightTop.setVisible(false);
 		insLeftTop.setVisible(false);
 		insRightBot.setVisible(false);
@@ -85,14 +88,13 @@ public class Game implements ActionListener, KeyListener
 		goal.setBounds(14, 230, 253, 90);
 		goal.setFont(goalFont);
 		goal.setVisible(false);
-		
-		//Win
+
+		// Win
 		win = new JLabel("", SwingConstants.CENTER);
-		win.setBounds(14, 150, 253, 200);                    
-		win.setFont(winFont);                              
-		win.setVisible(false); 
-		
-		
+		win.setBounds(14, 150, 253, 200);
+		win.setFont(winFont);
+		win.setVisible(false);
+
 		// Start Countdown
 		countdown = new JLabel("", SwingConstants.CENTER);
 		countdown.setBounds(14, 230, 253, 72);
@@ -102,16 +104,14 @@ public class Game implements ActionListener, KeyListener
 		// Player1
 		ImageIcon player;
 		player = new ImageIcon("resources/player1.png");
-		for (int i = 0; i != 10; i++)
-		{
+		for (int i = 0; i != 10; i++) {
 			player1[i] = new JLabel(player);
 			player1[i].setSize(9, 9);// 12
 		}
 
 		// Player2
 		player = new ImageIcon("resources/player2.png");
-		for (int i = 0; i != 10; i++)
-		{
+		for (int i = 0; i != 10; i++) {
 			player2[i] = new JLabel(player);
 			player2[i].setSize(9, 9);// 12
 		}
@@ -143,8 +143,7 @@ public class Game implements ActionListener, KeyListener
 		UPF.lp.add(net2, new Integer(2));
 		for (int i = 0; i != 8; i++)
 			UPF.lp.add(bar[i], new Integer(4));
-		for (int i = 0; i != 10; i++)
-		{
+		for (int i = 0; i != 10; i++) {
 			UPF.lp.add(player1[i], new Integer(5));
 			UPF.lp.add(player2[i], new Integer(5));
 		}
@@ -159,7 +158,7 @@ public class Game implements ActionListener, KeyListener
 		UPF.lp.add(scoreDash, new Integer(6));
 		UPF.lp.add(scoreBlue, new Integer(6));
 		UPF.lp.add(scoreRed, new Integer(6));
-		UPF.lp.add(toMenu, new Integer(6));///////////////////////////
+		UPF.lp.add(toMenu, new Integer(6));
 
 		UPF.f.repaint();
 
@@ -169,92 +168,73 @@ public class Game implements ActionListener, KeyListener
 	}
 
 	// Input
-	public void actionPerformed(ActionEvent e)
-	{
-		if (e.getSource() == UPF.ad)
-		{
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == UPF.ad) {
 			System.exit(0);
-			try
-			{
-			} catch (Exception a)
-			{
+			try {
+			} catch (Exception a) {
 			}
 		}
-		if (e.getSource() == toMenu)////////////////////////////////////////////
+		if (e.getSource() == toMenu)
 		{
 			RunAI.killAI();
 			returnToMenu();
 		}
 	}
 
-	public void keyPressed(KeyEvent e)
-	{
+	public void keyPressed(KeyEvent e) {
 		int k = e.getKeyCode();
-		if (k == KeyEvent.VK_LEFT)
-		{
+		if (k == KeyEvent.VK_LEFT) {
 			keys[0] = true;
-		} else if (k == KeyEvent.VK_RIGHT)
-		{
+		} else if (k == KeyEvent.VK_RIGHT) {
 			keys[1] = true;
 		}
-		if (k == KeyEvent.VK_A & Menu.gameMode)
-		{
+		if (k == KeyEvent.VK_A & Menu.gameMode) {
 			keys[2] = true;
-		} else if (k == KeyEvent.VK_D & Menu.gameMode)
-		{
+		} else if (k == KeyEvent.VK_D & Menu.gameMode) {
 			keys[3] = true;
 		}
 	}
 
-	public void keyReleased(KeyEvent e)
-	{
+	public void keyReleased(KeyEvent e) {
 		int k = e.getKeyCode();
-		if (k == KeyEvent.VK_LEFT)
-		{
+		if (k == KeyEvent.VK_LEFT) {
 			keys[0] = false;
-		} else if (k == KeyEvent.VK_RIGHT)
-		{
+		} else if (k == KeyEvent.VK_RIGHT) {
 			keys[1] = false;
 		}
-		if (k == KeyEvent.VK_A & Menu.gameMode)
-		{
+		if (k == KeyEvent.VK_A & Menu.gameMode) {
 			keys[2] = false;
-		} else if (k == KeyEvent.VK_D & Menu.gameMode)
-		{
+		} else if (k == KeyEvent.VK_D & Menu.gameMode) {
 			keys[3] = false;
 		}
 	}
 
-	public void keyTyped(KeyEvent e)
-	{
+	public void keyTyped(KeyEvent e) {
 	}
 
-	public static void resetAll()
-	{
+	public static void resetAll() {
 		BallMovement.resetBall(true);
 		move.resetPlayers();
 	}
-	public static void returnToMenu ()
-	{
+
+	public static void returnToMenu() {
 		remove();
 		RunGame.killGame();
 		MovePlayers.stopPlayers();
-		scoreCounter1=0;
-		scoreCounter2=0;
+		scoreCounter1 = 0;
+		scoreCounter2 = 0;
 		Menu.bannerAd();
 		new Menu();
-		
 	}
-	
-	public static void remove()
-	{
+
+	public static void remove() {
 		UPF.lp.remove(sBackground);
 		UPF.lp.remove(net1);
 		UPF.lp.remove(net2);
 		for (int i = 0; i != 8; i++)
 			UPF.lp.remove(bar[i]);
-		for (int i = 0; i != 10; i++)
-		{
+		for (int i = 0; i != 10; i++) {
 			UPF.lp.remove(player1[i]);
 			UPF.lp.remove(player2[i]);
 		}
@@ -273,29 +253,25 @@ public class Game implements ActionListener, KeyListener
 		UPF.f.repaint();
 	}
 
-	public static void instructions()
-	{
+	public static void instructions() {
 		toMenu.setEnabled(false);
-		if (Menu.gameMode)
-		{
+		if (Menu.gameMode) {
 			insRightTop.setVisible(true);
 			insLeftTop.setVisible(true);
 		}
 		insRightBot.setVisible(true);
 		insLeftBot.setVisible(true);
 		UPF.pause(1000);
-		if (Menu.gameMode)
-		{
+		if (Menu.gameMode) {
 			insRightTop.setVisible(false);
 			insLeftTop.setVisible(false);
 		}
 		insRightBot.setVisible(false);
 		insLeftBot.setVisible(false);
 	}
-	
 
-	
-	public static void goal(boolean colour, int score) // true = blue // false = red
+	public static void goal(boolean colour, int score) // true = blue // false =
+														// red
 	{
 		ball.setVisible(false);
 		if (colour) {
@@ -309,14 +285,14 @@ public class Game implements ActionListener, KeyListener
 		goal.setVisible(true);
 		UPF.pause(2000);
 		goal.setVisible(false);
-		if (scoreCounter1 == 5 | scoreCounter2 == 5)////////////////////////////////////////////////////////////////// score here
-			win (colour);
+		if (scoreCounter1 == 5 | scoreCounter2 == 5)// ////////////////////////////////////////////////////////////////
+													// score here
+			win(colour);
 		else
 			BallMovement.resetBall(false);
 	}
 
-	public static void win(boolean colour) 
-	{
+	public static void win(boolean colour) {
 		RunAI.killAI();
 		if (colour) {
 			win.setForeground(Color.blue);
@@ -330,37 +306,37 @@ public class Game implements ActionListener, KeyListener
 		UPF.pause(2000);
 		returnToMenu();
 	}
-	
-	public static class MovePlayers implements Runnable{
+
+	public static class MovePlayers implements Runnable {
 		static boolean movePlayers = true;
-		public void run()
-		{
-			while (movePlayers)
-			{
+
+		public void run() {
+			while (movePlayers) {
 				UPF.pause(10);
 				move.move();
 			}
 		}
-		public static void stopPlayers(){
+
+		public static void stopPlayers() {
 			movePlayers = false;
 		}
 	}
-	public static class RunGame implements Runnable{
+
+	public static class RunGame implements Runnable {
 		static boolean runGame = true;
-		public void run()
-		{
+
+		public void run() {
 			instructions();
 			BallMovement.resetBall(false);
-			
-			while (runGame)
-			{
+
+			while (runGame) {
 				UPF.pause(43);
 				bMove.updateBallPosition(ball, player1, player2, net1, net2);
 			}
 		}
-		public static void killGame(){
-			runGame=false;
+
+		public static void killGame() {
+			runGame = false;
 		}
-			
 	}
 }
