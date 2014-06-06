@@ -10,8 +10,7 @@ import javax.swing.JLabel;
  */
 public class AI {
 	static PlayerMovement p2 = new PlayerMovement();
-	static int yCoord = BallMovement.yC; // Determines future y position of the
-											// ball
+	static int yCoord = BallMovement.yC; // Determines future y position of the ball
 	int row, tempDiff, diff; // For the AI, to determine which direction to move
 
 	/**
@@ -34,7 +33,7 @@ public class AI {
 		}
 		int numOfMoves = (int) (Math.random() * 13 + 1); // Can move up to 13
 															// places
-		if (Math.random() < 0.5) { // 50% chance
+		if (Math.random() < 0.5)
 			for (int x = 0; x < numOfMoves; x++) { // Repeats for the number of
 													// intended moves
 				if (!(player2[3].getX() + 3 < 20)) // Prevents going off the
@@ -45,7 +44,7 @@ public class AI {
 				} catch (InterruptedException ie) {
 				}
 			}
-		} else { // Same as last block, different direction
+		else
 			for (int x = 0; x < numOfMoves; x++) {
 				if (!(player2[6].getX() + 3 > 252))
 					p2.p2Right();
@@ -54,7 +53,6 @@ public class AI {
 				} catch (InterruptedException ie) {
 				}
 			}
-		}
 
 	}
 
@@ -74,7 +72,7 @@ public class AI {
 												// screen, it will reset
 				yCoord = BallMovement.yC;
 			yCoord += BallMovement.yV; // Adds the velocity repeatedly
-			for (int x = 0; x < 4; x++) {
+			for (int x = 0; x < 4; x++)
 				if (Math.abs(yCoord - p2.y2[x]) <= 10) { // If yCoord becomes
 															// equal to any of
 															// the player rows,
@@ -83,41 +81,36 @@ public class AI {
 					row = x;
 					break outerloop;
 				}
-			}
 		}
 		// Depending on the row, the program will do different things
-		if (row == 0) {
+		if (row == 0)
 			// Goalie
 			determineDirection(BallMovement.xC - player2[0].getX());
-		} else if (row == 1) {
+		else if (row == 1) {
 			// Defender
 			tempDiff = BallMovement.xC - player2[1].getX();
 			diff = BallMovement.xC - player2[2].getX();
-			if (Math.abs(tempDiff) < Math.abs(diff)) { // Determines which
-														// player is closer and
+			if (Math.abs(tempDiff) < Math.abs(diff))
+				// player is closer and
 														// moves accordingly
 				determineDirection(tempDiff);
-			} else
+			else
 				determineDirection(diff);
 		} else if (row == 2) {
 			// Midfield
 			diff = BallMovement.xC - player2[3].getX();
-			for (int i = 0; i < 3; i++) { // Determines closest player
+			for (int i = 0; i < 3; i++)
 				if (Math.abs(diff) > Math.abs(BallMovement.xC
-						- player2[i + 4].getX())) {
+						- player2[i + 4].getX()))
 					diff = BallMovement.xC - player2[i + 4].getX();
-				}
-			}
 			determineDirection(diff);
 		} else if (row == 3) {
 			// Attacker
 			diff = BallMovement.xC - player2[7].getX();
-			for (int i = 0; i < 2; i++) { // Determines closest player
+			for (int i = 0; i < 2; i++)
 				if (Math.abs(diff) > Math.abs(BallMovement.xC
-						- player2[i + 8].getX())) {
+						- player2[i + 8].getX()))
 					diff = BallMovement.xC - player2[i + 8].getX();
-				}
-			}
 			determineDirection(diff);
 		}
 	}
@@ -130,8 +123,8 @@ public class AI {
 	 *            positive, the player is moved to the right
 	 */
 	public void determineDirection(int difference) {
-		if (difference < 0 && !(Game.player2[3].getX() - 1 < 20)) { // If the
-																	// difference
+		if (difference < 0 && !(Game.player2[3].getX() - 1 < 20))
+			// difference
 																	// is less
 																	// than
 																	// zero,
@@ -148,8 +141,8 @@ public class AI {
 																	// player
 																	// left,
 			p2.p2Left();
-		} else if (difference > 0 && !(Game.player2[6].getX() + 1 > 252)) { // If
-																			// it
+		else if (difference > 0 && !(Game.player2[6].getX() + 1 > 252))
+			// it
 																			// is
 																			// positive,
 																			// the
@@ -159,6 +152,5 @@ public class AI {
 																			// player
 																			// right
 			p2.p2Right();
-		}
 	}
 }

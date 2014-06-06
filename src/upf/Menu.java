@@ -1,30 +1,45 @@
 package upf;
 
-//Imports
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
 import upf.Game.MovePlayers;
 import upf.Game.RunGame;
 
-import java.awt.event.*;
+/**
+ * Controls the menus
+ * 
+ * @author Ilia
+ * 
+ */
+public class Menu implements ActionListener
+{
+	static AI bob = new AI(); // Creates a new AI object
 
-public class Menu implements ActionListener {
-	// Declarations
-	Font title = new Font("Berlin Sans FB Demi", Font.PLAIN, 42);
-	Font button = new Font("Eras Demi ITC", Font.PLAIN, 25);// 25
-	static AI bob = new AI();
-	static JLabel sBackground;
+	static JLabel sBackground; // Background of menu
 	static JLabel title1, title2, title3, title1Shade, title2Shade,
-			title3Shade;
-	static JButton play1, play2, easy, hard, back, bannerAd;
-	static volatile boolean runAI = true;
-	static boolean gameMode; // true = 2 player , false = single player
-	static JInternalFrame advertisement;
+			title3Shade; //Titles
+	static JButton play1, play2, easy, hard, back, fullAd; //Buttons
+	static JInternalFrame advertisement; // Full screen ad
 
-	static boolean difficulty;
+	Font title = new Font("Berlin Sans FB Demi", Font.PLAIN, 42); //Title fonts
+	Font button = new Font("Eras Demi ITC", Font.PLAIN, 25); //Button fonts
 
+	static boolean runAI = true; // Determines if the AI is running or not
+	static boolean gameMode; // Single player or multiplayer. True = 2 player,  False = single player
+	static boolean difficulty; // Game difficulty. True = easy, False = hard 
+
+	/**
+	 * Creates the menu
+	 */
 	public Menu() {// Constructor (Output)
 
 		// Background
@@ -91,7 +106,7 @@ public class Menu implements ActionListener {
 		hard.addActionListener(this);
 		hard.setVisible(false);
 
-		// Back
+		// Back button
 		back = new JButton("BACK");
 		back.setFont(button);
 		back.setBounds(24, 370, 233, 40);
@@ -118,7 +133,11 @@ public class Menu implements ActionListener {
 		UPF.f.repaint();
 	}
 
-	public void remove() {
+	/**
+	 * Removes the JButtons and JLabels from the JLayeredPane
+	 */
+	public void remove()
+	{
 		UPF.lp.remove(sBackground);
 		UPF.lp.remove(title1);
 		UPF.lp.remove(title2);
@@ -135,64 +154,83 @@ public class Menu implements ActionListener {
 		UPF.ad.removeActionListener(this);
 	}
 
-	// Input
-	public void actionPerformed(ActionEvent e) {
-		// Processing
-		if (e.getSource() == play1) {
+	/**
+	 * Registers button presses
+	 */
+	@Override
+	public void actionPerformed(ActionEvent e)
+	{
+		if (e.getSource() == play1) // Changes button visibility to ask the user for AI difficulty
+		{
 			gameMode = false;
 			play1.setVisible(false);
 			play2.setVisible(false);
 			easy.setVisible(true);
 			hard.setVisible(true);
 			back.setVisible(true);
-		} else if (e.getSource() == play2) {
+		}
+		else if (e.getSource() == play2) // Starts 2 player
+		{
 			gameMode = true;
 			play();
 		}
-
-		if (e.getSource() == easy) {
+		if (e.getSource() == easy) //Starts easy mode
+		{
 			difficulty = true;
 			play();
-		} else if (e.getSource() == hard) {
+		}
+		else if (e.getSource() == hard) //Starts hard mode
+		{
 			difficulty = false;
 			play();
-		} else if (e.getSource() == back) {
+		}
+		else if (e.getSource() == back) // Goes back to number of players selection
+		{
 			play1.setVisible(true);
 			play2.setVisible(true);
 			easy.setVisible(false);
 			hard.setVisible(false);
 			back.setVisible(false);
 		}
-		if (e.getSource() == UPF.ad) {
+		if (e.getSource() == UPF.ad) // Goes to Dragons' Den website
 			UPF.link();
-		}
-
 	}
 
-	public void play() {
+	/**
+	 * Starts the game
+	 */
+	public void play()
+	{
 		remove();
 		new Game();
 		RunGame.runGame = true;
 		MovePlayers.movePlayers = true;
 		// BallMovement.resetBall();
-		if (!gameMode) {
+		if (!gameMode) // If 2 players, don't start the AI
+		{
 			runAI = true;
 			new Thread(new RunAI()).start();
 		}
 	}
 
-	public static void bannerAd() {
+	/**
+	 * Creates full screen advertisement
+	 */
+	public static void fullAd()
+	{
 		advertisement = new JInternalFrame("", false, true, false, false);
-		bannerAd = new JButton("advertisement");
+		fullAd = new JButton("advertisement");
 
 		advertisement.setBounds(14, 46, 253, 445);
-		bannerAd.setBounds(0, 0, 243, 412);// 5,28
+		fullAd.setBounds(0, 0, 243, 412);
 
 		advertisement.setVisible(true);
 
-		advertisement.add(bannerAd);
-		bannerAd.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent aActionEvent) {
+		advertisement.add(fullAd);
+		fullAd.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent aActionEvent)
+			{
 				UPF.link();
 			}
 		});
@@ -205,13 +243,17 @@ public class Menu implements ActionListener {
 	 * @author Aditya Matam
 	 * 
 	 */
-	public static class RunAI implements Runnable {
+	public static class RunAI implements Runnable
+	{
 		/**
 		 * Repeatedly moves either the smart AI or the random AI depending on
 		 * user choices
 		 */
-		public void run() {
-			while (runAI) {
+		@Override
+		public void run()
+		{
+			while (runAI) // Stops if variable becomes false
+			{
 				UPF.pause(10);
 				if (difficulty == true)
 					bob.moveRandom(Game.player2);
@@ -223,7 +265,7 @@ public class Menu implements ActionListener {
 		/**
 		 * Suspends the execution of the AI
 		 */
-		public static void killAI() // Kills Skynet
+		public static void killAI() // (Kills Skynet)
 		{
 			runAI = false;
 		}

@@ -1,40 +1,56 @@
 package upf;
 
-//Imports
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
 import upf.Menu.RunAI;
 
-import java.awt.event.*;
+/**
+ * Game screen
+ * 
+ * @author Ilia
+ * 
+ */
+public class Game implements ActionListener, KeyListener
+{
 
-public class Game implements ActionListener, KeyListener {
-	// Declarations
-	Font menuFont = new Font("Dotum", Font.PLAIN, 20);// /////////////////////////////
-	Font score = new Font("Arial Narrow", Font.PLAIN, 24);
-	Font goalFont = new Font("Forte", Font.PLAIN, 90);
-	Font winFont = new Font("Forte", Font.PLAIN, 80);
-	static Font countdownFont1 = new Font("Hobo STD", Font.PLAIN, 72);
-	static Font countdownFont2 = new Font("Hobo STD", Font.PLAIN, 50);
-	static JButton toMenu;
+	static PlayerMovement move = new PlayerMovement(); // Creates an object of the PlayerMovement class.
+	final static BallMovement bMove = new BallMovement(); // Creates an object of the BallMovement class.
+
 	static JLabel sBackground, ball, goal, win, countdown, scoreRed, scoreBlue,
-			insRightTop, insLeftTop, insRightBot, insLeftBot,
+			insRightTop, insLeftTop, insRightBot, insLeftBot, // Background, ball, messages, score, instructions
 			scoreDash = new JLabel("-");;
 	static JLabel[] player1 = new JLabel[10], player2 = new JLabel[10],
-			bar = new JLabel[8];
-	// blueKick = new JLabel[10], redKick = new JLabel[10];
-	static int scoreCounter1 = 0, scoreCounter2 = 0;
-	static PlayerMovement move = new PlayerMovement();
-	AI bob = new AI();
-	static boolean[] keys = new boolean[4];
-	final static BallMovement bMove = new BallMovement();
+			bar = new JLabel[8]; // Players
 	final static JLabel net1 = new JLabel(new ImageIcon(
-			"resources/goalnett.png"));
-	final static JLabel net2 = new JLabel(new ImageIcon(
-			"resources/goalnetb.png"));
+			"resources/goalnett.png")), net2 = new JLabel(new ImageIcon(
+			"resources/goalnetb.png")); //Nets
+	static JButton toMenu; // Returns to menu
 
-	public Game() {// Constructor (Output)
+	Font menuFont = new Font("Arial Narrow", Font.PLAIN, 20); // Font for return to menu button
+	Font score = new Font("Arial Black", Font.PLAIN, 20); // Score font
+	Font goalFont = new Font("Forte", Font.PLAIN, 90); // Goal message font
+	Font winFont = new Font("Forte", Font.PLAIN, 80); // Winner message font
+	static Font countdownFont1 = new Font("Hobo STD", Font.PLAIN, 72); // Start countdown font 1
+	static Font countdownFont2 = new Font("Hobo STD", Font.PLAIN, 50); // Start countdown font 1
+
+	static int scoreCounter1 = 0, scoreCounter2 = 0; // Game score 1 = blue, 2 = red
+	static boolean[] keys = new boolean[4]; // Keyboard keys
+
+	/**
+	 * Creates the game
+	 */
+	public Game() {// Constructor
+
 		UPF.f.addKeyListener(this);
 		UPF.f.requestFocusInWindow();
 
@@ -42,8 +58,7 @@ public class Game implements ActionListener, KeyListener {
 		sBackground = new JLabel(new ImageIcon("resources/gameBKG.jpg"));
 		sBackground.setBounds(14, 46, 253, 445);
 
-		// Return to
-		// menu//////////////////////////////////////////////////////////
+		// Return to menu button
 		toMenu = new JButton("Menu");
 		toMenu.setFont(menuFont);
 		toMenu.setBounds(183, 54, 80, 30);
@@ -65,31 +80,27 @@ public class Game implements ActionListener, KeyListener {
 		insRightBot.setVisible(false);
 		insLeftBot.setVisible(false);
 
-		// Net
+		// Nets
 		net1.setBounds(100, 78, 82, 36);
 		net2.setBounds(100, 424, 82, 36);
 
 		// Bars
 		ImageIcon barI = new ImageIcon("resources/bar.png");
-		for (int i = 0; i < 4; i++) // //////////////////////////////Reiterates
-									// 4 times instead of 8
+		for (int i = 0; i < 4; i++)
 		{
 			bar[i * 2] = new JLabel(barI);
-			bar[i * 2 + 1] = new JLabel(barI); // ///////////////////////////////
-												// added in for compatibility
-			bar[i * 2].setBounds(14, move.y1[i] + 2, 254, 5); // //////////////////////////
-																// y1
-			bar[i * 2 + 1].setBounds(14, move.y2[i] + 2, 254, 5); // //////////////////////////
-																	// y2
+			bar[i * 2 + 1] = new JLabel(barI);
+			bar[i * 2].setBounds(14, move.y1[i] + 2, 254, 5); //y1
+			bar[i * 2 + 1].setBounds(14, move.y2[i] + 2, 254, 5); //y2
 		}
 
-		// Goal
+		// Goal message
 		goal = new JLabel("GOAL!", SwingConstants.CENTER);
 		goal.setBounds(14, 230, 253, 90);
 		goal.setFont(goalFont);
 		goal.setVisible(false);
 
-		// Win
+		// Win message
 		win = new JLabel("", SwingConstants.CENTER);
 		win.setBounds(14, 150, 253, 200);
 		win.setFont(winFont);
@@ -104,14 +115,16 @@ public class Game implements ActionListener, KeyListener {
 		// Player1
 		ImageIcon player;
 		player = new ImageIcon("resources/player1.png");
-		for (int i = 0; i != 10; i++) {
+		for (int i = 0; i != 10; i++)
+		{
 			player1[i] = new JLabel(player);
 			player1[i].setSize(9, 9);// 12
 		}
 
 		// Player2
 		player = new ImageIcon("resources/player2.png");
-		for (int i = 0; i != 10; i++) {
+		for (int i = 0; i != 10; i++)
+		{
 			player2[i] = new JLabel(player);
 			player2[i].setSize(9, 9);// 12
 		}
@@ -121,7 +134,7 @@ public class Game implements ActionListener, KeyListener {
 		ball.setBounds(136, 265, 7, 7);
 		ball.setVisible(false);
 
-		// Score
+		// Scores
 		scoreDash.setForeground(Color.yellow);
 		scoreDash.setFont(score);
 		scoreBlue = new JLabel("0");
@@ -143,7 +156,8 @@ public class Game implements ActionListener, KeyListener {
 		UPF.lp.add(net2, new Integer(2));
 		for (int i = 0; i != 8; i++)
 			UPF.lp.add(bar[i], new Integer(4));
-		for (int i = 0; i != 10; i++) {
+		for (int i = 0; i != 10; i++)
+		{
 			UPF.lp.add(player1[i], new Integer(5));
 			UPF.lp.add(player2[i], new Integer(5));
 		}
@@ -162,78 +176,100 @@ public class Game implements ActionListener, KeyListener {
 
 		UPF.f.repaint();
 
-		resetAll();
-		new Thread(new RunGame()).start();
-		new Thread(new MovePlayers()).start();
+		resetAll(); //Resets all variables to their initial values 
+		new Thread(new RunGame()).start(); //Starts the thread that moves the ball
+		new Thread(new MovePlayers()).start(); //Starts the thread that allows user to move players
 	}
 
-	// Input
-	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == UPF.ad) {
-			System.exit(0);
-			try {
-			} catch (Exception a) {
-			}
-		}
-		if (e.getSource() == toMenu) {
+	/**
+	 * Registers button presses
+	 */
+	@Override
+	public void actionPerformed(ActionEvent e)
+	{
+		if (e.getSource() == UPF.ad) // Goes to Dragons' Den website
+			UPF.link();
+		if (e.getSource() == toMenu) // Returns to menu
+		{
 			RunAI.killAI();
 			returnToMenu();
 		}
 	}
 
-	public void keyPressed(KeyEvent e) {
+	/**
+	 * Registers keyboard key presses
+	 */
+	@Override
+	public void keyPressed(KeyEvent e)
+	{
 		int k = e.getKeyCode();
-		if (k == KeyEvent.VK_LEFT) {
+		if (k == KeyEvent.VK_LEFT)
 			keys[0] = true;
-		} else if (k == KeyEvent.VK_RIGHT) {
+		else if (k == KeyEvent.VK_RIGHT)
 			keys[1] = true;
-		}
-		if (k == KeyEvent.VK_A & Menu.gameMode) {
+		if (k == KeyEvent.VK_A & Menu.gameMode) // Only effective during 2 player
 			keys[2] = true;
-		} else if (k == KeyEvent.VK_D & Menu.gameMode) {
+		else if (k == KeyEvent.VK_D & Menu.gameMode) // Only effective during 2 player
 			keys[3] = true;
-		}
 	}
 
-	public void keyReleased(KeyEvent e) {
+	/**
+	 * Registers keyboard key releases
+	 */
+	@Override
+	public void keyReleased(KeyEvent e)
+	{
 		int k = e.getKeyCode();
-		if (k == KeyEvent.VK_LEFT) {
+		if (k == KeyEvent.VK_LEFT)
 			keys[0] = false;
-		} else if (k == KeyEvent.VK_RIGHT) {
+		else if (k == KeyEvent.VK_RIGHT)
 			keys[1] = false;
-		}
-		if (k == KeyEvent.VK_A & Menu.gameMode) {
+		if (k == KeyEvent.VK_A & Menu.gameMode) // Only effective during 2 player
 			keys[2] = false;
-		} else if (k == KeyEvent.VK_D & Menu.gameMode) {
+		else if (k == KeyEvent.VK_D & Menu.gameMode) // Only effective during 2 player
 			keys[3] = false;
-		}
 	}
 
-	public void keyTyped(KeyEvent e) {
+	@Override
+	public void keyTyped(KeyEvent e)
+	{
 	}
 
-	public static void resetAll() {
+	/**
+	 * Resets all variables to their initial values
+	 */
+	public static void resetAll()
+	{
 		BallMovement.resetBall(true);
 		move.resetPlayers();
 	}
 
-	public static void returnToMenu() {
+	/**
+	 * Returns to the main menu
+	 */
+	public static void returnToMenu()
+	{
 		remove();
 		RunGame.killGame();
 		MovePlayers.stopPlayers();
 		scoreCounter1 = 0;
 		scoreCounter2 = 0;
-		Menu.bannerAd();
+		Menu.fullAd();
 		new Menu();
 	}
 
-	public static void remove() {
+	/**
+	 * Removes the JButton and JLabels from the JLayeredPane
+	 */
+	public static void remove()
+	{
 		UPF.lp.remove(sBackground);
 		UPF.lp.remove(net1);
 		UPF.lp.remove(net2);
 		for (int i = 0; i != 8; i++)
 			UPF.lp.remove(bar[i]);
-		for (int i = 0; i != 10; i++) {
+		for (int i = 0; i != 10; i++)
+		{
 			UPF.lp.remove(player1[i]);
 			UPF.lp.remove(player2[i]);
 		}
@@ -252,16 +288,26 @@ public class Game implements ActionListener, KeyListener {
 		UPF.f.repaint();
 	}
 
-	public static void instructions() {
+	/**
+	 * Shows game instructions
+	 * 
+	 * @param playersNum
+	 *            Determines if single player or 2 player instructions should
+	 *            show
+	 */
+	public static void instructions(boolean playersNum)
+	{
 		toMenu.setEnabled(false);
-		if (Menu.gameMode) {
+		if (playersNum)
+		{
 			insRightTop.setVisible(true);
 			insLeftTop.setVisible(true);
 		}
 		insRightBot.setVisible(true);
 		insLeftBot.setVisible(true);
 		UPF.pause(1000);
-		if (Menu.gameMode) {
+		if (playersNum)
+		{
 			insRightTop.setVisible(false);
 			insLeftTop.setVisible(false);
 		}
@@ -269,14 +315,26 @@ public class Game implements ActionListener, KeyListener {
 		insLeftBot.setVisible(false);
 	}
 
-	public static void goal(boolean colour, int score) // true = blue // false =
+	/**
+	 * Shows "Goal!" message
+	 * 
+	 * @param colour
+	 *            Determines which colour to show
+	 * @param score
+	 *            If the score is greater than 5, "Win" message shows
+	 * 
+	 */
+	public static void goal(boolean colour, int score) // true = blue, false =
 														// red
 	{
 		ball.setVisible(false);
-		if (colour) {
+		if (colour)
+		{
 			scoreBlue.setText("" + score);
 			goal.setForeground(Color.blue);
-		} else {
+		}
+		else
+		{
 			scoreRed.setText("" + score);
 			goal.setForeground(Color.red);
 		}
@@ -284,19 +342,28 @@ public class Game implements ActionListener, KeyListener {
 		goal.setVisible(true);
 		UPF.pause(2000);
 		goal.setVisible(false);
-		if (scoreCounter1 == 5 | scoreCounter2 == 5)// ////////////////////////////////////////////////////////////////
-													// score here
+		if (score == 5)
 			win(colour);
 		else
 			BallMovement.resetBall(false);
 	}
 
-	public static void win(boolean colour) {
+	/**
+	 * Show "Win" message, and returns to the main menu
+	 * 
+	 * @param colour
+	 *            Determines which colour to show of the message
+	 */
+	public static void win(boolean colour)
+	{
 		RunAI.killAI();
-		if (colour) {
+		if (colour)
+		{
 			win.setForeground(Color.blue);
 			win.setText("<html>BLUE<br>WINS</html>");
-		} else {
+		}
+		else
+		{
 			win.setForeground(Color.red);
 			win.setText("<html>RED<br>WINS</html>");
 		}
@@ -312,14 +379,18 @@ public class Game implements ActionListener, KeyListener {
 	 * @author Aditya Matam
 	 * 
 	 */
-	public static class MovePlayers implements Runnable {
+	public static class MovePlayers implements Runnable
+	{
 		static boolean movePlayers = true;
 
 		/**
 		 * Repeatedly runs the method that registers the user's key presses
 		 */
-		public void run() {
-			while (movePlayers) { // Can stop if variable becomes false
+		@Override
+		public void run()
+		{
+			while (movePlayers)
+			{ // Can stop if variable becomes false
 				UPF.pause(10);
 				move.move();
 			}
@@ -328,7 +399,8 @@ public class Game implements ActionListener, KeyListener {
 		/**
 		 * Pauses the execution of the thread that moves the players
 		 */
-		public static void stopPlayers() {
+		public static void stopPlayers()
+		{
 			movePlayers = false;
 		}
 	}
@@ -339,16 +411,20 @@ public class Game implements ActionListener, KeyListener {
 	 * @author Aditya Matam
 	 * 
 	 */
-	public static class RunGame implements Runnable {
+	public static class RunGame implements Runnable
+	{
 		static boolean runGame = true;
 
 		/**
 		 * Repeatedly updates ball position
 		 */
-		public void run() {
-			instructions(); // Instructions menu
+		@Override
+		public void run()
+		{
+			instructions(Menu.gameMode); // Instructions
 			BallMovement.resetBall(false);
-			while (runGame) { // Can stop if variable becomes false
+			while (runGame) // Stops if variable becomes false
+			{ 
 				UPF.pause(43);
 				bMove.updateBallPosition(ball, player1, player2, net1, net2);
 			}
@@ -357,7 +433,8 @@ public class Game implements ActionListener, KeyListener {
 		/**
 		 * pauses game execution
 		 */
-		public static void killGame() {
+		public static void killGame()
+		{
 			runGame = false;
 		}
 	}
