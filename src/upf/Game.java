@@ -12,7 +12,7 @@ import java.awt.event.*;
 public class Game implements ActionListener, KeyListener {
 	// Declarations
 	Font menuFont = new Font("Dotum", Font.PLAIN, 20);// /////////////////////////////
-	Font score = new Font("Haettenschweiler", Font.PLAIN, 24);
+	Font score = new Font("Arial Narrow", Font.PLAIN, 24);
 	Font goalFont = new Font("Forte", Font.PLAIN, 90);
 	Font winFont = new Font("Forte", Font.PLAIN, 80);
 	static Font countdownFont1 = new Font("Hobo STD", Font.PLAIN, 72);
@@ -175,8 +175,7 @@ public class Game implements ActionListener, KeyListener {
 			} catch (Exception a) {
 			}
 		}
-		if (e.getSource() == toMenu)
-		{
+		if (e.getSource() == toMenu) {
 			RunAI.killAI();
 			returnToMenu();
 		}
@@ -307,34 +306,57 @@ public class Game implements ActionListener, KeyListener {
 		returnToMenu();
 	}
 
+	/**
+	 * Responsible for the thread that moves the players
+	 * 
+	 * @author Aditya Matam
+	 * 
+	 */
 	public static class MovePlayers implements Runnable {
 		static boolean movePlayers = true;
 
+		/**
+		 * Repeatedly runs the method that registers the user's key presses
+		 */
 		public void run() {
-			while (movePlayers) {
+			while (movePlayers) { // Can stop if variable becomes false
 				UPF.pause(10);
 				move.move();
 			}
 		}
 
+		/**
+		 * Pauses the execution of the thread that moves the players
+		 */
 		public static void stopPlayers() {
 			movePlayers = false;
 		}
 	}
 
+	/**
+	 * Responsible for the thread that constantly updates the ball position
+	 * 
+	 * @author Aditya Matam
+	 * 
+	 */
 	public static class RunGame implements Runnable {
 		static boolean runGame = true;
 
+		/**
+		 * Repeatedly updates ball position
+		 */
 		public void run() {
-			instructions();
+			instructions(); // Instructions menu
 			BallMovement.resetBall(false);
-
-			while (runGame) {
+			while (runGame) { // Can stop if variable becomes false
 				UPF.pause(43);
 				bMove.updateBallPosition(ball, player1, player2, net1, net2);
 			}
 		}
 
+		/**
+		 * pauses game execution
+		 */
 		public static void killGame() {
 			runGame = false;
 		}

@@ -10,8 +10,7 @@ import upf.Game.RunGame;
 
 import java.awt.event.*;
 
-public class Menu implements ActionListener
-{
+public class Menu implements ActionListener {
 	// Declarations
 	Font title = new Font("Berlin Sans FB Demi", Font.PLAIN, 42);
 	Font button = new Font("Eras Demi ITC", Font.PLAIN, 25);// 25
@@ -119,8 +118,7 @@ public class Menu implements ActionListener
 		UPF.f.repaint();
 	}
 
-	public void remove()
-	{
+	public void remove() {
 		UPF.lp.remove(sBackground);
 		UPF.lp.remove(title1);
 		UPF.lp.remove(title2);
@@ -138,62 +136,52 @@ public class Menu implements ActionListener
 	}
 
 	// Input
-	public void actionPerformed(ActionEvent e)
-	{
+	public void actionPerformed(ActionEvent e) {
 		// Processing
-		if (e.getSource() == play1)
-		{
+		if (e.getSource() == play1) {
 			gameMode = false;
 			play1.setVisible(false);
 			play2.setVisible(false);
 			easy.setVisible(true);
 			hard.setVisible(true);
 			back.setVisible(true);
-		} else if (e.getSource() == play2)
-		{
+		} else if (e.getSource() == play2) {
 			gameMode = true;
 			play();
 		}
 
-		if (e.getSource() == easy)
-		{
+		if (e.getSource() == easy) {
 			difficulty = true;
 			play();
-		} else if (e.getSource() == hard)
-		{
+		} else if (e.getSource() == hard) {
 			difficulty = false;
 			play();
-		} else if (e.getSource() == back)
-		{
+		} else if (e.getSource() == back) {
 			play1.setVisible(true);
 			play2.setVisible(true);
 			easy.setVisible(false);
 			hard.setVisible(false);
 			back.setVisible(false);
 		}
-		if (e.getSource() == UPF.ad)
-		{
+		if (e.getSource() == UPF.ad) {
 			UPF.link();
 		}
 
 	}
 
-	public void play()
-	{
+	public void play() {
 		remove();
 		new Game();
 		RunGame.runGame = true;
 		MovePlayers.movePlayers = true;
 		// BallMovement.resetBall();
-		if (!gameMode)
-		{
+		if (!gameMode) {
 			runAI = true;
 			new Thread(new RunAI()).start();
 		}
 	}
 
-	public static void bannerAd()
-	{
+	public static void bannerAd() {
 		advertisement = new JInternalFrame("", false, true, false, false);
 		bannerAd = new JButton("advertisement");
 
@@ -204,19 +192,26 @@ public class Menu implements ActionListener
 
 		advertisement.add(bannerAd);
 		bannerAd.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent aActionEvent)
-			{
+			public void actionPerformed(ActionEvent aActionEvent) {
 				UPF.link();
-			}});
+			}
+		});
 		UPF.lp.add(advertisement, new Integer(7));
 	}
 
-	public static class RunAI implements Runnable
-	{
-		public void run()
-		{
-			while (runAI)
-			{
+	/**
+	 * Responsible for the thread that moves the AI player
+	 * 
+	 * @author Aditya Matam
+	 * 
+	 */
+	public static class RunAI implements Runnable {
+		/**
+		 * Repeatedly moves either the smart AI or the random AI depending on
+		 * user choices
+		 */
+		public void run() {
+			while (runAI) {
 				UPF.pause(10);
 				if (difficulty == true)
 					bob.moveRandom(Game.player2);
@@ -225,7 +220,10 @@ public class Menu implements ActionListener
 			}
 		}
 
-		public static void killAI()
+		/**
+		 * Suspends the execution of the AI
+		 */
+		public static void killAI() // Kills Skynet
 		{
 			runAI = false;
 		}
